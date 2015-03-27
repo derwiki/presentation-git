@@ -1,0 +1,84 @@
+Intro
+- there are 184 git commands
+- and i've got 5 slides for each one, so we're going to need to hurry
+- j/k
+- we're going to look at 10
+- so if you're already familiar with all these, you can zone out
+
+- file system
+ - do thinks like mk/rm files and directories
+ - only keeps track of current state
+- git
+ - version control system
+ - keeps track of changes between state [ .. in a file system]
+
+How does git add version control to a filesystem?
+- git repo contains two things:
+- working tree (all your files and folders in the current directory)
+- and a .git directory with object model, and database into the object model
+
+4 different types of objects
+* tianyu: easier to show it in context first
+- blob: contents of a file
+- trees: record of a directory in a specific state
+ - the file/blobs it contains (not the files, just the hashes)
+- commits: attached to a tree
+ - metadata about who authored the current tree and when
+ - only for the most recent commit!!
+  - has a reference to it's parent commit
+
+git object should come before "Recording history in git"
+ because, what is a commit? why are we talking about its ancestry?
+
+DAG should also come before ancestry
+- this is how you move between states
+
+show gif of commit sha1 changing after amending the commit message
+
+picture of graph
+- one node master branch HEAD
+ - adam creates a topic branch
+ - grant created a topic branch
+ - they make commits in their own direction
+ - grant merges in
+ - adam merges in
+
+HEAD slide
+- show example in the adam/grant topic branch "story"
+
+** narrative of two developers working on topic branches
+- how branches go in different directions (picture)
+- what the file system looks like at different points along the way
+- how they deal with conflicts
+ - interactive rebasing (the hammer of thor)
+
+Include git index / staging area
+
+commands to include:
+- git branch -v
+- git reset # move backwards in history
+ - git pull --ff-only # move forward in history if you have no conflicting changes
+- git reset -p HEAD^ # interactively revert parts of the previous commit
+- git rebase -i HEAD^^^
+ - git cherry-pick is a special case of that
+- git diff --cached
+- git reflog # know it exists
+- just for fun: git bisect
+- git commit -v
+- git log --oneline
+- git log --oneline --graph
+
+why use squash in rebase -i?
+- grant is working on a branch
+- it's about to be merged but hasn't
+- i need to work on top of it
+g checkout grant/topic-branch
+git rebase -i
+ # squash everything into one commit
+git show
+export sha1=`git rev-parse HEAD`
+cat $sha1
+git fetch origin && git reset --hard origin/master
+git checkout -b adam/topic-branch # now it's very up-to-date
+git cherry-pick `cat $sha1`
+# now you're up-to-date and have roughly the same code that grant will be merging soon
