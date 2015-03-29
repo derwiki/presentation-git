@@ -9,12 +9,6 @@
     %link{:href => "reveal/css/main.css", :rel => "stylesheet"}/
     %link{:href => "highlight/src/styles/solarized_dark.css", :rel => "stylesheet"}/
     %link{:href => "presentation.css", :rel => "stylesheet"}/
-    / overrides for default reveal styles
-    :css
-      .reveal pre,
-      .reveal code {
-        font-size: 18px;
-      }
   %body#presentation
     .reveal
       .slides
@@ -31,7 +25,7 @@
           %h4 for AdRoll, March 31, 2015
 
         %section
-          %h2 What is git?
+          %h3 What is git?
           %ul
             %li.fragment
               Version control system like SVN, CVS, RCS, mercurial, etc
@@ -45,7 +39,7 @@
               the filesystem has been in
 
         %section
-          %h2 Controlling git
+          %h3 Controlling git
           %ul
             %li.fragment
               There are only 156 commands (
@@ -218,7 +212,7 @@
               \~20 seconds per command, so let's dive in
 
         %section
-          %h2 Controlling git
+          %h3 Controlling git
           %ul
             %li .. not really
             %li.fragment
@@ -227,7 +221,7 @@
               Emphasis on collaborating with a team
 
         %section
-          %h2 Installing git to a directory
+          %h3 Installing git to a directory
           %ul
             %li.fragment
               %code git init
@@ -242,7 +236,7 @@
               other project configurations
 
         %section
-          %h2
+          %h3
             %code $ tree .git/
           %code
             %pre
@@ -267,7 +261,7 @@
               │   │   └── ef3e6630af133b41bd954e220f31231aa281d9
 
         %section
-          %h2 Objects: blobs and trees
+          %h3 Objects: blobs and trees
           %ul
             %li.fragment
               %b blob:
@@ -317,7 +311,7 @@
               \/tmp
 
         %section
-          %h2 Objects: commits
+          %h3 Objects: commits
           %ul
             %li.fragment
               %b commit:
@@ -339,15 +333,15 @@
               to the current commit
               
         %section
-          %h2 Object relationships
+          %h3 Object relationships
           %img{ src: 'assets/commit-tree-blob.jpg' }
 
         %section
-          %h2 Family tree
+          %h3 Family tree
           %img{ src: 'assets/git-ancestry.jpg' }
 
         %section
-          %h2 Raw commit
+          %h3 Raw commit
           %code
             %pre
               $ git show --format=raw
@@ -371,7 +365,7 @@
               \+# incrementally modify your database, and then regenerate
 
         %section
-          %h2 SHA-1 hashes
+          %h3 SHA-1 hashes
           %ul
             %li.fragment
               Hashing algorithm used to identify all objects
@@ -383,7 +377,7 @@
               commit: changing blob, tree, or commit metadata changes SHA-1
 
         %section
-          %h2 Raw commit
+          %h3 Raw commit
           %code
             %pre{ style: 'font-size: 14px;' }
               \          $ git show --format=raw | head -n 7
@@ -414,72 +408,340 @@
               \    Initial db/schema.rb (revised)
 
         %section
-          %h2 URL Structure
+          %h3
+            %span.ms HEAD
+            pointer
           %ul
             %li.fragment
-              Like title and h1 tags, URL tokens imply hints about content
+              HEAD: pointer to the currently checked out commit
             %li.fragment
-              Use semantic naming when possible
+              i.e. the head of the current branch
             %li.fragment
-              bad: '/gear/15'
+              HEAD^: the parent of HEAD
             %li.fragment
-              good: '/gear/canon-5d-mark-ii'
+              HEAD~2: the grandparent of HEAD
             %li.fragment
-              BEST: '/rent/canon-5d-mark-ii/san-francisco/nob-hill'
-            %li.fragment
-              The practice of adding "slugs" to URLs is very common
-            %li.fragment
-              Additional benefit: obfuscates auto-increment IDs
+              %code
+                %pre
+                  \$ cat .git/HEAD
+                  ref: refs/heads/master
+                  \$ cat .git/refs/heads/master
+                  67ee28dcc27ee5ab59061ae47a0b81dd19888274
+                  \$ git rev-parse HEAD
+                  67ee28dcc27ee5ab59061ae47a0b81dd19888274
 
         %section
-          %h2 Long Tail:
-          %h3 Landing pages
-          %ul
+          %h3 Branch pointers
+          %ul( style="width: 100%" )
             %li.fragment
-              Your home page is only one entry point to your site
+              %code
+                %pre
+                  \$ git branch -v
+                  \  adam/style-index ddf0c20 Add styling to tweet#index
+                  \  grant/style-new  28bbd41 Convert tweet#new, tweet#form
+                  \* master           67ee28d Initial db/schema.rb
             %li.fragment
-              How many variations do people search for? Can you generate them?
+              %code
+                %pre
+                  \$ tree .git/refs/heads/
+                  \.git/refs/heads/
+                  \├── adam
+                  \│   └── style-index
+                  \├── grant
+                  \│   └── style-new
+                  \└── master
             %li.fragment
-              e.g. you list apartments in San Francisco
+              %code git checkout -b $newbranch
             %li.fragment
-              People will search for "apartments in san francisco", "rent in
-              pacific heights", "rent 94103", etc
-            %li.fragment
-              You have this data, it should be exposed in a way that
-              corresponds to what people are searching for
-            %li.fragment
-              Each landing pages may only get 5 hits/day, but if you have
-              thousands that rank, it adds up
+              Creates branch
+              %code $newbranch
+              from current HEAD
 
         %section
-          %h2 Long Tail:
-          %h3 Content Marketing
+          %h3 Fast-forwards
           %ul
             %li.fragment
-              Many attainable keyword phrases aren't completely on-topic
+              e.g. your local
+              %code master
+              is give commits behind
+              %code origin/master
             %li.fragment
-              Putting them on main site could be confusing
+              %img{ src: 'assets/fast-forward.jpg' }
             %li.fragment
-              Blogs are perfect for these random, high traffic topics
+              To update your local
+              %code master,
+              you can fast-forward to origin/master
             %li.fragment
-              Make sure to upsell the main site, else it's low-value traffic
+              %code git pull origin master --ff-only
 
         %section
-          %h2 Landing Pages and Conversion
+          %h3
+            Moving backwards with
+            %span.ms reset
           %ul
             %li.fragment
-              It's more than just the title/h1;
-              landing pages convert better if the content speaks to that market
+              e.g. moving backwards two commits
             %li.fragment
-              e.g. /rent/drones contains information for first time drone flyers
+              %img{ src: 'assets/reset-backwards.jpg' }
             %li.fragment
-              e.g. /wedding shows wedding photographers the benefits of renting
-              an extra camera
+              %code git reset master^^
             %li.fragment
-              This strategy is also important for paid advertising / marketing
+              %b Only
+              changes HEAD
             %li.fragment
-              i.e. "List your camera and earn money" ads shouldn't point to
-              the homepage, they should point to "/list_your_gear" landing page
+              The changes contained in commits 'a' and 'b' are now un-staged
+              changes
+
+        %section
+          %h3.ms git reset HEAD^^
+          %code
+            %pre
+              $ git status
+              On branch master
+              nothing to commit, working directory clean
+              %br
+              $ git log --oneline
+              67ee28d (HEAD, master) Initial db/schema.rb
+              78e5e7a Add scaffolding for Tweet
+              2328d04 Add bootstrap, haml, remove spring
+              9ba1482 rails new TwitterClone
+              %br
+
+              $ git reset HEAD^^
+              Unstaged changes after reset:
+              M config/routes.rb
+              %br
+
+              $ git status
+              On branch master
+              Changes not staged for commit:
+              \  (use "git add <file>..." to update what will be committed)
+              \  (use "git checkout -- <file>..." to discard changes in working directory)
+
+              \        modified:   config/routes.rb
+
+              %br
+              Untracked files:
+              \  (use "git add <file>..." to include in what will be committed)
+
+              \        app/assets/stylesheets/tweets.scss
+              \        app/controllers/tweets_controller.rb
+              \        app/models/tweet.rb
+              \        app/views/tweets/
+              \        db/migrate/
+              \        db/schema.rb
+
+        %section
+          %h3.ms git reset --hard
+          %ul
+            %li.fragment
+              Moves HEAD
+              %b and
+              discards changes, instead of leaving them in working tree
+            %li.fragment
+              %code
+                %pre
+                  $ git reset --hard 67ee28d
+                  HEAD is now at 67ee28d Initial db/schema.rb
+                  %br
+                  $ git log --oneline
+                  67ee28d (HEAD, master) Initial db/schema.rb
+                  78e5e7a Add scaffolding for Tweet
+                  2328d04 Add bootstrap, haml, remove spring
+                  9ba1482 rails new TwitterClone
+
+        %section
+          %h3.ms git reset --hard
+          %ul
+            %li.fragment
+              Can be used to reset to any arbitrary commit
+            %li.fragment
+              Reliable way to set any branch to origin's master
+            %li.fragment
+              %code
+                %pre
+                  $ git fetch origin
+                  Fetching repository, done.
+                  %br
+                  $ git reset --hard origin/master
+                  HEAD is now at 67ee28d Initial db/schema.rb
+
+        %section
+          %h3 Working tree
+          %ul
+            %li.fragment
+              Tree object that represents the current state of the filesystem
+            %li.fragment
+              If there are no changes from the most recent commit, the working
+              tree is the same as the commit's tree
+            %li.fragment
+              %span.ms git diff
+              to view differences between the most recent commit's tree and
+              the working tree
+            %li.fragment
+              %code.fw
+                %pre.fw
+                  \$ git diff
+                  diff --git a/Gemfile b/Gemfile
+                  index 45e30c6..c20f939 100644
+                  \--- a/Gemfile
+                  \+++ b/Gemfile
+                  \@@ -1,47 +1,22 @@
+                  \ source 'https://rubygems.org'
+
+                  \-
+                  \-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+                  \ gem 'rails', '4.2.0'
+                  \-# Use sqlite3 as the database for Active Record
+                  \ gem 'sqlite3'
+                  \-# Use SCSS for stylesheets
+                  \ gem 'sass-rails', '~> 5.0'
+                  \-# Use Uglifier as compressor for JavaScript assets
+                  \ gem 'uglifier', '>= 1.3.0'
+                  \-# Use CoffeeScript for .coffee assets and views
+                  \ gem 'coffee-rails', '~> 4.1.0'
+                  \-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+                  \-# gem 'therubyracer', platforms: :ruby
+                  \ group :production do
+                  \   gem 'pg'
+                  \ end
+
+        %section
+          %h3 Index / staging area
+          %ul
+            %li.fragment
+              Work tree: the tree of in progress changes that are currently
+              ahead of the most recent commit
+            %li.fragment
+              Index: a "staging area" between the work tree and the most
+              recent commit
+            %li.fragment
+              Used to prepare the next commit
+            %li.fragment
+              Stage entire file/directory:
+            %li.fragment
+              %span.ms git add foo/ bar.py
+
+        %section
+          %h3.ms git add --patch
+          %code
+            %pre
+              \$ git add --patch
+              diff --git a/app/assets/stylesheets/application.scss b/app/assets/stylesheets/application.scss
+              index f9cd5b3..298db72 100644
+              \--- a/app/assets/stylesheets/application.scss
+              \+++ b/app/assets/stylesheets/application.scss
+              \@@ -13,3 +13,4 @@
+              \  *= require_tree .
+              \  *= require_self
+              \  */
+              +@import "bootstrap";
+              %br
+              Stage this hunk [y,n,q,a,d,/,e,?]? ?
+              y - stage this hunk
+              n - do not stage this hunk
+              q - quit; do not stage this hunk or any of the remaining ones
+              a - stage this hunk and all later hunks in the file
+              d - do not stage this hunk or any of the later hunks in the file
+              g - select a hunk to go to
+              \/ - search for a hunk matching the given regex
+              j - leave this hunk undecided, see next undecided hunk
+              J - leave this hunk undecided, see next hunk
+              k - leave this hunk undecided, see previous undecided hunk
+              K - leave this hunk undecided, see previous hunk
+              s - split the current hunk into smaller hunks
+              e - manually edit the current hunk
+              ? - print help
+              @@ -13,3 +13,4 @@
+              \  *= require_tree .
+              \  *= require_self
+              \  */
+              +@import "bootstrap";
+
+        %section
+          %h3 Inspecting the index
+          %code.fw
+            %pre.fw
+              $ git status
+              On branch master
+              Changes to be committed:
+              \  (use "git reset HEAD <file>..." to unstage)
+
+              \        renamed:    app/assets/stylesheets/application.css -> app/assets/stylesheets/application.scss
+
+              Untracked files:
+              \  (use "git add <file>..." to include in what will be committed)
+
+              \        untracked-file
+              %br
+              Adams-MacBook-Pro-2:~/src/TwitterClone[master +%]
+              \$ git diff --cached
+              diff --git a/app/assets/stylesheets/application.css b/app/assets/stylesheets/application.css
+              deleted file mode 100644
+              index f9cd5b3..0000000
+              \--- a/app/assets/stylesheets/application.css
+              \+++ /dev/null
+              \@@ -1,15 +0,0 @@
+              diff --git a/app/assets/stylesheets/application.scss b/app/assets/stylesheets/application.scss
+              new file mode 100644
+              index 0000000..298db72
+              \--- /dev/null
+              \+++ b/app/assets/stylesheets/application.scss
+              \@@ -0,0 +1,16 @@
+              \+@import "bootstrap";
+
+        %section
+          %h3 Creating a commit
+          %ul
+            %li.fragment
+              Stage files and hunks with
+              %span.ms git add
+              and
+              %span.ms git add --patch
+            %li.fragment
+              %span.ms git commit -m "My commit message"
+            %li.fragment
+              Open your editor and include the comments of the commit's tree:
+            %li.fragment
+              %span.ms git commit -v
+
+        %section
+          %h3.ms git commit -v
+          %code.fw
+            %pre.fw
+              Remove comments from Gemfile
+              \# Please enter the commit message for your changes. Lines starting
+              \# with '#' will be ignored, and an empty message aborts the commit.
+              \# On branch master
+              \# Changes to be committed:
+              \# modified:   Gemfile
+              \#
+              \# ------------------------ >8 ------------------------
+              \# Do not touch the line above.
+              \# Everything below will be removed.
+              diff --git a/Gemfile b/Gemfile
+              index 45e30c6..c20f939 100644
+              \--- a/Gemfile
+              \+++ b/Gemfile
+              \@@ -1,47 +1,22 @@
+              \ source 'https://rubygems.org'
+
+              \-
+              \-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+              \ gem 'rails', '4.2.0'
+              \-# Use sqlite3 as the database for Active Record
+              \ gem 'sqlite3'
+              \-# Use SCSS for stylesheets
+              \ gem 'sass-rails', '~> 5.0'
+              \-# Use Uglifier as compressor for JavaScript assets
+              \ gem 'uglifier', '>= 1.3.0'
+              \-# Use CoffeeScript for .coffee assets and views
+              \ gem 'coffee-rails', '~> 4.1.0'
+              \-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+              \-# gem 'therubyracer', platforms: :ruby
+              \ group :production do
+              \   gem 'pg'
+              \ end
 
         %section
           %h2 Instructing Googlebot

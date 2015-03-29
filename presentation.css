@@ -37,7 +37,8 @@
   text-transform: none;
 }
 
-#presentation .reveal h1 {
+#presentation .reveal h1,
+#presentation .reveal h1 code {
   font-size: 99px;
   text-shadow: none;
 }
@@ -70,6 +71,10 @@
   text-align: center;
 }
 
+pre,
+code {
+  font-size: 18px;
+}
 .git-col {
   -webkit-column-count: 6;
   -webkit-column-gap: 3px;
@@ -86,4 +91,10 @@
 }
 .git-col p:first {
   height: 2em;
+}
+.ms {
+  font-family: monospace !important;
+}
+.fw {
+  width: 100% !important;
 }
