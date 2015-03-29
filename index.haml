@@ -1,0 +1,373 @@
+<!doctype html>
+%html{:lang => "en"}
+  %head
+    %meta{:charset => "utf-8"}/
+    %title Using git effectively | Adam Derewecki
+    %meta{:content => "Adam Derewecki", :name => "author"}/
+    %link{:href => "http://fonts.googleapis.com/css?family=Montserrat:400,700", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "reveal/css/reset.css", :rel => "stylesheet"}/
+    %link{:href => "reveal/css/main.css", :rel => "stylesheet"}/
+    %link{:href => "highlight/src/styles/solarized_dark.css", :rel => "stylesheet"}/
+    %link{:href => "presentation.css", :rel => "stylesheet"}/
+    / overrides for default reveal styles
+    :css
+      .reveal pre,
+      .reveal code {
+        font-size: 18px;
+      }
+  %body#presentation
+    .reveal
+      .slides
+
+        %section
+          %h2 Using git effectiely 
+          %h4
+            %a{ href: '//github.com/derwiki/presentation-git' }
+              github.com/derwiki/presentation-git
+          %br
+          %h5 presented by
+          %h4 @derwiki
+          %h4
+          %h4 for AdRoll, March 31, 2015
+
+        %section
+          %h2 What is git?
+          %ul
+            %li.fragment
+              Version control system like SVN, CVS, RCS, mercurial, etc
+            %li.fragment
+              File systems keep track of directories, files, and contents
+            %li.fragment
+              File systems only car about the current state
+            %li.fragment
+              Installing git to part of a filesystem and creating "savepoints"
+              (commits) allows you to easily navigate between different states
+              the filesystem has been in
+
+        %section
+          %h2 Controlling git
+          %ul
+            %li.fragment
+              There are only 184 commands (
+              %code git help --all
+              \)
+              
+            %li.fragment
+              %img{ src: 'assets/git-help-all.jpg' }
+            %li.fragment
+              We're going to cover them
+              %b all
+            %li.fragment
+              Which gives us about 20 seconds per command, so let's dive in 
+
+        %section
+          %h2 Installing git to a directory
+          %ul
+            %li.fragment
+              %code git init
+            %li.fragment
+              Creates a
+              %code .git
+              directory in your directory alongside everything else that was
+              there
+            %li.fragment
+              %code .git
+              contains: the object model, database of the object model, and
+              other project configurations
+
+        %section
+          %h2
+            %code $ tree .git/
+          %code
+            %pre
+              .git
+              ├── COMMIT_EDITMSG
+              ├── HEAD
+              ├── config
+              ├── description
+              ├── hooks
+              │   ├── pre-commit
+              ├── index
+              ├── info
+              │   └── exclude
+              ├── logs
+              │   ├── HEAD
+              │   └── refs
+              │       └── heads
+              │           ├── adam-style-index
+              │           └── master
+              ├── objects
+              │   ├── 01
+              │   │   └── ef3e6630af133b41bd954e220f31231aa281d9
+
+        %section
+          %h2 Objects: blobs and trees
+          %ul
+            %li.fragment
+              %b blob:
+              contents of a file
+            %li.fragment
+              %b tree:
+              record of a directory in a specific state
+            %li.fragment
+              i.e. list of blobs and trees in the current tree
+          .fragment
+            %code
+              %pre
+                $ git ls-tree HEAD
+                100644 blob 050c9d95c7e2ec43e92b19e6719ab522f580a2a8  .gitignore
+                100644 blob 45e30c639e2eb1c93ee7ca8eb89b120dc6d46391  Gemfile
+                100644 blob 6136bceb0bbe82b4f5786e003c1e6e5a9fa9d976  Gemfile.lock
+                100644 blob dd4e97e22e159a585b20e21028f964827d5afa4e  README.rdoc
+                100644 blob ba6b733dd2358d858f00445ebd91c214f0f5d2e5  Rakefile
+                040000 tree 9149e8d1f244078f92a48197be0ea0e89feb1df3  app
+                040000 tree 19b9d6c8a39c3ecc9e985b34af88ab219e07df75  bin
+                100644 blob bd83b25412305f93fdb0a892aded30e5178899ba  config.ru
+                040000 tree 395350c15f688e10ef8115eaf609fcfafcf51bea  config
+                040000 tree 602980f52d9fe985bf9f9ec25c77513b51a42d52  db
+                040000 tree 07d89d0b7e50929dea0dcf7e7354358c1133be86  lib
+                040000 tree 29a422c19251aeaeb907175e9b3219a9bed6c616  log
+                040000 tree 23a3236904020a96c2a827875e3e065213747cda  public
+                040000 tree 03fb84ec8cc53685767345fd32d53af59762c622  test
+                040000 tree 8084e8e04d510cc28321f30a9646477cc50c235c  vendor
+
+        %section
+          %code
+            %pre
+              $ git show 050c9d95 # the SHA1 of .gitignore's blob
+              \# See https://help.github.com/articles/ignoring-files for more
+              \#
+              \# If you find yourself ignoring temporary files generated by
+              \# or operating system, you probably want to add a global ignore
+              \#   git config --global core.excludesfile '~/.gitignore_global'
+              \# Ignore bundler config.
+              \/.bundle
+              \# Ignore the default SQLite database.
+              \/db/*.sqlite3
+              \/db/*.sqlite3-journal
+              \# Ignore all logfiles and tempfiles.
+              \/log/*
+              \!/log/.keep
+              \/tmp
+
+        %section
+          %h2 Objects: commits
+          %ul
+            %li.fragment
+              %b commit:
+              attached to a tree (which is a snapshot of a directory in it's
+              current state)
+            %li.fragment
+              Contains metadata: author, when the tree was modified, commit
+              message, etc
+            %li.fragment
+              %b Only
+              contains information about the current commit
+            %li.fragment
+              i.e. how the tree differs from the previous version
+            %li.fragment
+              Commits contain references to their
+              %b parents commit(s)
+            %li.fragment
+              You can traverse up parent commits if you need information prior
+              to the current commit
+              
+
+        %section
+          %h2 In your layout
+          %ul
+            %li.fragment
+              h1 tags
+            %li.fragment
+              Should contain your keyword phrases
+            %li.fragment
+              Add page specific keyword phrases
+            %li.fragment
+              There should be only
+              %i one
+              h1 tag/page
+            %li.fragment
+              bad: "ApartmentList | Rent apartments across the United States"
+            %li.fragment
+              good "Apartments for rent near San Francisco, CA (61 buildings)"
+            %li.fragment
+              notice similarities between title and h1?
+            %li.fragment
+              when in doubt, set title=h1
+
+        %section
+          %h2 In your layout
+          %ul
+            %li.fragment
+              meta description
+            %li.fragment
+              Don't bother keyword phrase stuffing here
+            %li.fragment
+              One goal: get the user to click through
+              %img{ src: 'assets/google-result-snippet.jpg' }
+            %li.fragment
+              Destination page should be not be a surprise
+            %li.fragment
+              i.e. description shouldn't say "rent condos" and then only try to
+              sell houses
+
+        %section
+          %h2 URL Structure
+          %ul
+            %li.fragment
+              Like title and h1 tags, URL tokens imply hints about content
+            %li.fragment
+              Use semantic naming when possible
+            %li.fragment
+              bad: '/gear/15'
+            %li.fragment
+              good: '/gear/canon-5d-mark-ii'
+            %li.fragment
+              BEST: '/rent/canon-5d-mark-ii/san-francisco/nob-hill'
+            %li.fragment
+              The practice of adding "slugs" to URLs is very common
+            %li.fragment
+              Additional benefit: obfuscates auto-increment IDs
+
+        %section
+          %h2 Long Tail:
+          %h3 Landing pages
+          %ul
+            %li.fragment
+              Your home page is only one entry point to your site
+            %li.fragment
+              How many variations do people search for? Can you generate them?
+            %li.fragment
+              e.g. you list apartments in San Francisco
+            %li.fragment
+              People will search for "apartments in san francisco", "rent in
+              pacific heights", "rent 94103", etc
+            %li.fragment
+              You have this data, it should be exposed in a way that
+              corresponds to what people are searching for
+            %li.fragment
+              Each landing pages may only get 5 hits/day, but if you have
+              thousands that rank, it adds up
+
+        %section
+          %h2 Long Tail:
+          %h3 Content Marketing
+          %ul
+            %li.fragment
+              Many attainable keyword phrases aren't completely on-topic
+            %li.fragment
+              Putting them on main site could be confusing
+            %li.fragment
+              Blogs are perfect for these random, high traffic topics
+            %li.fragment
+              Make sure to upsell the main site, else it's low-value traffic
+
+        %section
+          %h2 Landing Pages and Conversion
+          %ul
+            %li.fragment
+              It's more than just the title/h1;
+              landing pages convert better if the content speaks to that market
+            %li.fragment
+              e.g. /rent/drones contains information for first time drone flyers
+            %li.fragment
+              e.g. /wedding shows wedding photographers the benefits of renting
+              an extra camera
+            %li.fragment
+              This strategy is also important for paid advertising / marketing
+            %li.fragment
+              i.e. "List your camera and earn money" ads shouldn't point to
+              the homepage, they should point to "/list_your_gear" landing page
+
+        %section
+          %h2 Instructing Googlebot
+          %ul
+            %li.fragment
+              sitemap.xml (or collection of sitemaps)
+            %li.fragment
+              robots.txt for allow/disallow
+            %li.fragment
+              Why would you disallow?
+            %li.fragment
+              If you have 100,000 pages but only 50 entry points, you want
+              "link juice" concentrated more in the entry points
+            %li.fragment
+              nofollow / robots.txt disallow will prevent Google from indexing
+              low-SEO-value pages or pages that you never want GoogleBot to see
+            %li.fragment
+              e.g. maybe you don't want to expose all profiles in San
+              Francisco, but rather bring everyone in to an SF landing page
+              with highlighted profiles
+
+        %section
+          %h2 Good Web Practices
+          %ul
+            %li.fragment
+              SEO has a bad rap
+            %li.fragment
+              Really, it's encouraging good and sane web development practices
+            %li.fragment
+              Try writing a script that extracts title, h1, and URL for your 50
+              top-viewed web pages
+            %li.fragment
+              Mine was embarassing :)
+            %li.fragment
+              Really easy to fix, pays for itself over time in free traffic
+
+        %section
+          %h2 Backlinks: why should we trust you?
+          %ul
+            %li.fragment
+              Every search engine sucked in the 90s
+            %li.fragment
+              Google got it right with PageRank
+            %li.fragment
+              The more web sites that link to you, the higher your
+              authority
+            %li.fragment
+              If web sites link to you for a specific phrase, i.e. 'camera
+              rental', then you have higher authority for that phrase
+            %li.fragment
+              The higher the authority of the domain with the link to you,
+              the more weight it carries
+            %li.fragment
+              One "good" backlink (30+ CF) is better than hundreds of low CF
+              scores
+
+        %section
+          %img{ src: 'assets/market-samurai-citation-flow.jpg', style: 'width: 100%;' }
+
+        %section
+          %img{ src: 'assets/network-advertising.jpg', style: 'width: 100%;' }
+
+        %section
+          %h2 Basic SEO
+          %h4
+            %a{ href: '//github.com/derwiki/presentation-seo' }
+              github.com/derwiki/presentation-seo
+          %br
+          %h5 presented by
+          %h4 @derwiki
+          %h4 for AdRoll, March 24, 2015
+          %h4 My affiliate link: marketsamurai.com/c/derwiki
+
+      /
+        required for correct operation of reveal.js,
+        even if we don't want controls
+      %aside.controls
+        %a.left{:href => "#"} &#x25c4;
+        %a.right{:href => "#"} &#x25ba;
+        %a.up{:href => "#"} &#x25b2;
+        %a.down{:href => "#"} &#x25bc;
+
+    %script{:src => "reveal/js/reveal.min.js"}
+    %script{:src => "highlight/build/highlight.pack.js"}
+    :javascript
+      Reveal.initialize({
+        controls: false,
+        progress: false,
+        history: true,
+        mouseWheel: false,
+        rollingLinks: false,
+      });
+      hljs.initHighlightingOnLoad();

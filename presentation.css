@@ -1,0 +1,71 @@
+#presentation {
+  background: #f8f8f8;
+  color: #515151;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 33px;
+}
+
+#presentation a {
+  color: #15b5d2;
+}
+
+#presentation .reveal {
+  background-size: 100% 10px;
+  background: url(assets/causes-header.png);
+  height: 10px;
+}
+
+#presentation .reveal .slides {
+  text-align: left;
+}
+#presentation .reveal .slides li {
+  margin-bottom: 12px;
+}
+
+#presentation .reveal h1,
+#presentation .reveal h2,
+#presentation .reveal h3,
+#presentation .reveal h4,
+#presentation .reveal h5 {
+  color: #15b5d2;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: .02em;
+  line-height: .93em;
+  margin: 0 0 20px;
+  text-align: left;
+  text-shadow: none;
+  text-transform: none;
+}
+
+#presentation .reveal h1 {
+  font-size: 99px;
+  text-shadow: none;
+}
+
+#presentation .reveal .slides h5 {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+#presentation .reveal ul {
+  margin-left: 63px;
+}
+
+#presentation .reveal section img.logo {
+  background-color: inherit;
+  border: 0;
+  bottom: 0;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  position: fixed;
+  width: 200px;
+}
+
+#presentation section img {
+  height: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
