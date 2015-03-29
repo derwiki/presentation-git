@@ -338,44 +338,76 @@
               You can traverse up parent commits if you need information prior
               to the current commit
               
+        %section
+          %h2 Family tree
+          %img{ src: 'assets/git-ancestry.jpg' }
 
         %section
-          %h2 In your layout
-          %ul
-            %li.fragment
-              h1 tags
-            %li.fragment
-              Should contain your keyword phrases
-            %li.fragment
-              Add page specific keyword phrases
-            %li.fragment
-              There should be only
-              %i one
-              h1 tag/page
-            %li.fragment
-              bad: "ApartmentList | Rent apartments across the United States"
-            %li.fragment
-              good "Apartments for rent near San Francisco, CA (61 buildings)"
-            %li.fragment
-              notice similarities between title and h1?
-            %li.fragment
-              when in doubt, set title=h1
+          %h2 Raw commit
+          %code
+            %pre
+              $ git show --format=raw
+              commit 67ee28dcc27ee5ab59061ae47a0b81dd19888274
+              %b tree e7dd337b5f247393f9f23e03eef3a176eb32e1a1
+              %b parent 78e5e7abdb69d32f886e950b3329fdc0c249f6dd
+              author Adam Derewecki <derewecki@gmail.com> 1427591530 -0700
+              committer Adam Derewecki <derewecki@gmail.com> 1427591530 -0700
+
+              \    Initial db/schema.rb
+
+              diff --git a/db/schema.rb b/db/schema.rb
+              new file mode 100644
+              index 0000000..9affc04
+              \--- /dev/null
+              \+++ b/db/schema.rb
+              \@@ -0,0 +1,24 @@
+              \+# encoding: UTF-8
+              \+# This file is auto-generated from the current state of the
+              \+# of editing this file, please use the migrations feature of
+              \+# incrementally modify your database, and then regenerate
 
         %section
-          %h2 In your layout
+          %h2 SHA-1 hashes
           %ul
             %li.fragment
-              meta description
+              Hashing algorithm used to identify all objects
             %li.fragment
-              Don't bother keyword phrase stuffing here
+              blob: changing the file contents changes SHA-1
             %li.fragment
-              One goal: get the user to click through
-              %img{ src: 'assets/google-result-snippet.jpg' }
+              tree: adding/removing a subtree, changing a blob changes SHA-1
             %li.fragment
-              Destination page should be not be a surprise
-            %li.fragment
-              i.e. description shouldn't say "rent condos" and then only try to
-              sell houses
+              commit: changing blob, tree, or commit metadata changes SHA-1
+
+        %section
+          %h2 Raw commit
+          %code
+            %pre{ style: 'font-size: 14px;' }
+              \          $ git show --format=raw | head -n 7
+              %br
+              commit 67ee28dcc27ee5ab59061ae47a0b81dd19888274
+              tree e7dd337b5f247393f9f23e03eef3a176eb32e1a1
+              parent 78e5e7abdb69d32f886e950b3329fdc0c249f6dd
+              author Adam Derewecki <derewecki@gmail.com> 1427591530 -0700
+              committer Adam Derewecki <derewecki@gmail.com> 1427591530 -0700
+              \    Initial db/schema.rb
+              %br
+              Adams-MacBook-Pro-2:~/src/TwitterClone[adam/style-index *%]
+              \$ git commit --amend -m "Initial db/schema.rb (revised)"
+              %br
+              \[adam/style-index b7eabfc] Initial db/schema.rb (revised)
+              \ Date: Sat Mar 28 18:12:10 2015 -0700
+              \ 1 file changed, 24 insertions(+)
+              \ create mode 100644 db/schema.rb
+              %br
+              Adams-MacBook-Pro-2:~/src/TwitterClone[adam/style-index *%]
+              \$ git show --format=raw | head -n 7
+              %br
+              commit b7eabfc8b46f259eee072cb6c79595452b72331b
+              tree e7dd337b5f247393f9f23e03eef3a176eb32e1a1
+              parent 78e5e7abdb69d32f886e950b3329fdc0c249f6dd
+              author Adam Derewecki <derewecki@gmail.com> 1427591530 -0700
+              committer Adam Derewecki <derewecki@gmail.com> 1427610295 -0700
+              \    Initial db/schema.rb (revised)
 
         %section
           %h2 URL Structure

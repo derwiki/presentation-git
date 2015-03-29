@@ -69,3 +69,21 @@
 .text-center {
   text-align: center;
 }
+
+.git-col {
+  -webkit-column-count: 6;
+  -webkit-column-gap: 3px;
+  -moz-column-count: 6;
+  -moz-column-gap: 3px;
+  column-count:6;
+  column-gap:3px;
+  font-size: 10px;
+  font-family: monospace;
+}
+.git-col p {
+  margin: 0;
+  height: 1.1em;
+}
+.git-col p:first {
+  height: 2em;
+}
