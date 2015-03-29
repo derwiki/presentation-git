@@ -744,6 +744,83 @@
               \ end
 
         %section
+          %h3.ms git rebase --interactive
+          %ul
+            %li.fragment
+              Re-write history: reorder commits, edit commits in the past, remove commits
+            %li.fragment
+              Any time you change a commit, you change it's SHA-1
+            %li.fragment
+              Which means its children need to be re-written to point to the new SHA-1
+            %li.fragment
+              %code
+                %pre
+                  \$ git log --oneline
+                  \* bc9f9f5 (HEAD, master) Remove comments from Gemfile
+                  \* 6c8cd70 Add bootstrap to and scss'ed application.scss
+                  \* 67ee28d Initial db/schema.rb
+                  \* 78e5e7a Add scaffolding for Tweet
+                  \* 2328d04 Add bootstrap, haml, remove spring
+                  \* 9ba1482 rails new TwitterClone
+                  \$ git rebase -i 2328d04
+
+        %section
+          %h3.ms git rebase --interactive
+          %code.fw
+            %pre.fw
+              \$ git rebase -i 2328d04
+              pick 78e5e7a Add scaffolding for Tweet
+              fixup 67ee28d Initial db/schema.rb
+              pick bc9f9f5 Remove comments from Gemfile
+              pick 6c8cd70 Add bootstrap to and scss'ed application.scss
+
+              \# Rebase 2328d04..bc9f9f5 onto 2328d04
+              \#
+              \# Commands:
+              \#  p, pick = use commit
+              \#  r, reword = use commit, but edit the commit message
+              \#  e, edit = use commit, but stop for amending
+              \#  s, squash = use commit, but meld into previous commit
+              \#  f, fixup = like "squash", but discard this commit's log message
+              \#  x, exec = run command (the rest of the line) using shell
+              \#
+              \# These lines can be re-ordered; they are executed from top to bottom.
+              \#
+              \# If you remove a line here THAT COMMIT WILL BE LOST.
+              \#
+              \# However, if you remove everything, the rebase will be aborted.
+              \#
+              \# Note that empty commits are commented out
+
+        %section
+          %h3.ms git rebase --interactive
+          %ul
+            %li.fragment
+              After saving/quitting from
+              %span.ms git rebase -i,
+              the SHA-1 of "Add scaffolding for Tweet" and every child of that
+              has been updated
+            %li.fragment
+              %code
+                %pre
+                  \# before
+                  \$ git log --oneline
+                  bc9f9f5 (HEAD, master) Remove comments from Gemfile
+                  6c8cd70 Add bootstrap to and scss'ed application.scss
+                  67ee28d Initial db/schema.rb
+                  78e5e7a Add scaffolding for Tweet
+                  2328d04 Add bootstrap, haml, remove spring
+                  9ba1482 rails new TwitterClone
+                  %br
+                  \# after
+                  \$ git log --oneline
+                  61b6221 (HEAD, master) Add bootstrap to and scss'ed application.scss
+                  74788ff Remove comments from Gemfile
+                  acb9b7f Add scaffolding for Tweet
+                  2328d04 Add bootstrap, haml, remove spring
+                  9ba1482 rails new TwitterClone
+
+        %section
           %h2 Instructing Googlebot
           %ul
             %li.fragment
