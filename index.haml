@@ -211,33 +211,27 @@
             %li.fragment
               \~20 seconds per command, so let's dive in
 
-        %section
-          %h3 Controlling git
-          %ul
-            %li .. not really
-            %li.fragment
-              Focusing on ~11 commands
-            %li.fragment
-              Emphasis on collaborating with a team
+        %section.text-center
+          %img{ src: 'assets/trollface.png', style: 'height: 400px; align: center;' }
+          %div jk/lol
 
         %section
           %h3 Installing git to a directory
           %ul
             %li.fragment
-              %code git init
+              .ms git init
             %li.fragment
               Creates a
-              %code .git
+              %span.ms .git
               directory in your directory alongside everything else that was
               there
             %li.fragment
-              %code .git
+              %span.ms .git
               contains: the object model, database of the object model, and
               other project configurations
 
         %section
-          %h3
-            %code $ tree .git/
+          %h3.ms $ tree .git/
           %code
             %pre
               .git

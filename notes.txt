@@ -67,6 +67,7 @@ commands to include:
 - git commit -v
 - git log --oneline
 - git log --oneline --graph
+- git clean -xdf
 
 why use squash in rebase -i?
 - grant is working on a branch
