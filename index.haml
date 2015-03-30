@@ -38,7 +38,7 @@
             %li.fragment
               File systems keep track of directories, files, and contents
             %li.fragment
-              File systems only car about the current state
+              File systems only care about the current state
             %li.fragment
               Installing git to part of a filesystem and creating "savepoints"
               (commits) allows you to easily navigate between different states
@@ -49,7 +49,7 @@
           %ul
             %li.fragment
               There are only 156 commands (
-              %code git help --all
+              %span.ms git help --all
               \)
               
             %li.fragment
@@ -294,6 +294,7 @@
                   040000 tree 8084e8e04d510cc28321f30a9646477cc50c235c  vendor
 
         %section
+          %h3.ms git show 050c9d95
           %code
             %pre
               = preserve do
@@ -327,7 +328,7 @@
               %b Only
               contains information about the current commit
             %li.fragment
-              i.e. how the tree differs from the previous version
+              i.e. how the tree differs from the tree of the most recent commit
             %li.fragment
               Commits contain references to their
               %b parents commit(s)
@@ -456,11 +457,13 @@
                     \├── grant
                     \│   └── style-new
                     \└── master
+                    \$ cat .git/refs/heads/master
+                    2c75ffc1b6c0f5e4a8265bac78ba0640e236cc86
             %li.fragment
-              %code git checkout -b $newbranch
+              %span.ms git checkout -b $newbranch
             %li.fragment
               Creates branch
-              %code $newbranch
+              %span.ms $newbranch
               from current HEAD
 
         %section
@@ -468,17 +471,18 @@
           %ul
             %li.fragment
               e.g. your local
-              %code master
-              is give commits behind
-              %code origin/master
+              %span.ms master
+              is 5 commits behind
+              %span.ms origin/master
             %li.fragment
               %img{ src: 'assets/fast-forward.jpg' }
             %li.fragment
               To update your local
-              %code master,
-              you can fast-forward to origin/master
+              %span.ms master,
+              you can fast-forward to
+              %span.ms origin/master
             %li.fragment
-              %code git pull origin master --ff-only
+              %span.ms git pull origin master --ff-only
 
         %section
           %h3
@@ -490,7 +494,7 @@
             %li.fragment
               %img{ src: 'assets/reset-backwards.jpg' }
             %li.fragment
-              %code git reset master^^
+              %span.ms git reset master^^
             %li.fragment
               %b Only
               changes HEAD
@@ -591,6 +595,10 @@
                     %br
                     $ git reset --hard origin/master
                     HEAD is now at 67ee28d Initial db/schema.rb
+            %li.fragment
+              %span.ms git reset --hard SHA1
+              is equivalent to
+              %span.ms git reset SHA1 ; git clean -xdf
 
         %section
           %h3 Working tree
@@ -605,8 +613,8 @@
               to view differences between the most recent commit's tree and
               the working tree
             %li.fragment
-              %code.fw
-                %pre.fw
+              %code
+                %pre
                   = preserve do
                     \$ git diff
                     diff --git a/Gemfile b/Gemfile
@@ -688,8 +696,8 @@
 
         %section
           %h3 Inspecting the index
-          %code.fw
-            %pre.fw
+          %code
+            %pre
               = preserve do
                 $ git status
                 On branch master
@@ -735,8 +743,8 @@
 
         %section
           %h3.ms git commit -v
-          %code.fw
-            %pre.fw
+          %code
+            %pre
               = preserve do
                 Remove comments from Gemfile
                 \# Please enter the commit message for your changes. Lines starting
