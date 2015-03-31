@@ -17,13 +17,13 @@
           <h2>Using git effectiely</h2>
           <h4>
             <div class='live'>
-              Live
+              Live:
               <a href='is.gd/derwiki_git'>
                 is.gd/derwiki_git
               </a>
             </div>
             <div class='source'>
-              Source
+              Source:
               <a href='//github.com/derwiki/presentation-git'>
                 github.com/derwiki/presentation-git
               </a>
@@ -404,7 +404,7 @@
               <span class='ms'>origin/master</span>
             </li>
             <li class='fragment'>
-              <span class='ms'>git pull origin master --ff-only</span>
+              <span class='ms'>git pull --ff-only [origin [master]]</span>
             </li>
           </ul>
         </section>
@@ -556,25 +556,26 @@
               Which means its children need to be re-written to point to the new SHA-1
             </li>
             <li class='fragment'>
-              <code><pre>$ git log --oneline&#x000A;* bc9f9f5 (HEAD, master) Remove comments from Gemfile&#x000A;* 6c8cd70 Add bootstrap to and scss'ed application.scss&#x000A;* 67ee28d Initial db/schema.rb&#x000A;* 78e5e7a Add scaffolding for Tweet&#x000A;* 2328d04 Add bootstrap, haml, remove spring&#x000A;* 9ba1482 rails new TwitterClone&#x000A;$ git rebase -i 2328d04</pre></code>
+              Invoked with a base commit-ish to work from, presents a list of all
+              commits more recent than the base commit
             </li>
           </ul>
         </section>
         <section>
           <h3 class='ms'>git rebase --interactive</h3>
-          <code><pre>$ git log --oneline&#x000A;* bc9f9f5 (HEAD, master) Remove comments from Gemfile&#x000A;* 6c8cd70 Add bootstrap to and scss'ed application.scss&#x000A;* 67ee28d Initial db/schema.rb&#x000A;* 78e5e7a Add scaffolding for Tweet&#x000A;* 2328d04 Add bootstrap, haml, remove spring&#x000A;* 9ba1482 rails new TwitterClone&#x000A;<br />&#x000A;$ git rebase -i 2328d04&#x000A;pick 78e5e7a Add scaffolding for Tweet&#x000A;fixup 67ee28d Initial db/schema.rb&#x000A;pick bc9f9f5 Remove comments from Gemfile&#x000A;pick 6c8cd70 Add bootstrap to and scss'ed application.scss&#x000A;<br />&#x000A;# Rebase 2328d04..bc9f9f5 onto 2328d04&#x000A;#&#x000A;# Commands:&#x000A;#  p, pick = use commit&#x000A;#  r, reword = use commit, but edit the commit message&#x000A;#  e, edit = use commit, but stop for amending&#x000A;#  s, squash = use commit, but meld into previous commit&#x000A;#  f, fixup = like "squash", but discard this commit's log message&#x000A;#  x, exec = run command (the rest of the line) using shell&#x000A;#&#x000A;# These lines can be re-ordered; they are executed from top to bottom.&#x000A;#&#x000A;# If you remove a line here THAT COMMIT WILL BE LOST.&#x000A;#&#x000A;# However, if you remove everything, the rebase will be aborted.&#x000A;#&#x000A;# Note that empty commits are commented out</pre></code>
+          <code><pre>$ git log --oneline&#x000A;* bc9f9f5 (HEAD, master) Remove comments from Gemfile&#x000A;* 6c8cd70 Add bootstrap to and scss'ed application.scss&#x000A;* 67ee28d Initial db/schema.rb&#x000A;* 78e5e7a Add scaffolding for Tweet&#x000A;* 2328d04 Add bootstrap, haml, remove spring&#x000A;* 9ba1482 rails new TwitterClone&#x000A;<br />&#x000A;$ git rebase -i 2328d04&#x000A;# before&#x000A;pick 78e5e7a Add scaffolding for Tweet&#x000A;pick 67ee28d Initial db/schema.rb&#x000A;pick 6c8cd70 Add bootstrap to and scss'ed application.scss&#x000A;pick bc9f9f5 Remove comments from Gemfile&#x000A;<br />&#x000A;# after&#x000A;pick 78e5e7a Add scaffolding for Tweet&#x000A;fixup 67ee28d Initial db/schema.rb&#x000A;pick bc9f9f5 Remove comments from Gemfile&#x000A;pick 6c8cd70 Add bootstrap to and scss'ed application.scss&#x000A;<br />&#x000A;# Rebase 2328d04..bc9f9f5 onto 2328d04&#x000A;#&#x000A;# Commands:&#x000A;#  p, pick = use commit&#x000A;#  r, reword = use commit, but edit the commit message&#x000A;#  e, edit = use commit, but stop for amending&#x000A;#  s, squash = use commit, but meld into previous commit&#x000A;#  f, fixup = like "squash", but discard this commit's log message&#x000A;#  x, exec = run command (the rest of the line) using shell&#x000A;#&#x000A;# These lines can be re-ordered; they are executed from top to bottom.&#x000A;# If you remove a line here THAT COMMIT WILL BE LOST.&#x000A;# However, if you remove everything, the rebase will be aborted.&#x000A;# Note that empty commits are commented out</pre></code>
         </section>
         <section>
           <h3 class='ms'>git rebase --interactive</h3>
           <ul>
             <li class='fragment'>
+              <code><pre># before&#x000A;$ git log --oneline&#x000A;bc9f9f5 (HEAD, master) Remove comments from Gemfile&#x000A;6c8cd70 Add bootstrap to and scss'ed application.scss&#x000A;67ee28d Initial db/schema.rb&#x000A;78e5e7a Add scaffolding for Tweet&#x000A;2328d04 Add bootstrap, haml, remove spring&#x000A;9ba1482 rails new TwitterClone&#x000A;<br />&#x000A;# after&#x000A;$ git log --oneline&#x000A;61b6221 (HEAD, master) Add bootstrap to and scss'ed application.scss&#x000A;74788ff Remove comments from Gemfile&#x000A;acb9b7f Add scaffolding for Tweet&#x000A;2328d04 Add bootstrap, haml, remove spring&#x000A;9ba1482 rails new TwitterClone</pre></code>
+            </li>
+            <li class='fragment'>
               After saving/quitting from
               <span class='ms'>git rebase -i,</span>
               the SHA-1 of "Add scaffolding for Tweet" and every child of that
               has been updated
-            </li>
-            <li class='fragment'>
-              <code><pre># before&#x000A;$ git log --oneline&#x000A;bc9f9f5 (HEAD, master) Remove comments from Gemfile&#x000A;6c8cd70 Add bootstrap to and scss'ed application.scss&#x000A;67ee28d Initial db/schema.rb&#x000A;78e5e7a Add scaffolding for Tweet&#x000A;2328d04 Add bootstrap, haml, remove spring&#x000A;9ba1482 rails new TwitterClone&#x000A;<br />&#x000A;# after&#x000A;$ git log --oneline&#x000A;61b6221 (HEAD, master) Add bootstrap to and scss'ed application.scss&#x000A;74788ff Remove comments from Gemfile&#x000A;acb9b7f Add scaffolding for Tweet&#x000A;2328d04 Add bootstrap, haml, remove spring&#x000A;9ba1482 rails new TwitterClone</pre></code>
             </li>
           </ul>
         </section>
@@ -607,13 +608,14 @@
               our code changes now have different SHA-1s
             </li>
             <li class='fragment'>
-              Still in the object model
+              "Old" commits are still in the object model
               <span class='ms'>(.git/objects)</span>
             </li>
             <li class='fragment'>
               Unless referenced in another branch, considered a "dangling commit"
             </li>
             <li class='fragment'>
+              Enumerate dangling objects
               <code><pre>$ git fsck --full&#x000A;Checking object directories: 100% (256/256), done.&#x000A;dangling commit 1697714d585a6273efc98042eb3041c272d83377&#x000A;dangling blob a84806f040fbaad43f7bb5bc506b6a32575abe89</pre></code>
             </li>
             <li class='fragment'>
@@ -643,8 +645,12 @@
             <li class='fragment'>
               To merge
               <span class='ms'>a,</span>
-              master is simply fast-forwarded to a
+              master is simply fast-forwarded to
+              <span class='ms'>a</span>
               <img src='assets/merge-conflict-2.jpg' />
+            </li>
+            <li class='fragment ms'>
+              git checkout master ; git merge --ff-only a
             </li>
           </ul>
         </section>
@@ -662,6 +668,17 @@
               <img src='assets/merge-conflict-3.jpg' />
             </li>
             <li class='fragment'>
+              <span class='ms'>b's</span>
+              parent was the old head of
+              <span class='ms'>master,</span>
+              but now we need
+              <span class='ms'>b's</span>
+              parent to be the new head of
+              <span class='ms'>master,</span>
+              which is
+              <span class='ms'>a</span>
+            </li>
+            <li class='fragment'>
               Two solutions: merge commit or rebase
             </li>
           </ul>
@@ -670,10 +687,7 @@
           <h3>Merge commits</h3>
           <ul>
             <li class='fragment'>
-              Differ from normal commit in that it has two parents
-            </li>
-            <li class='fragment'>
-              <span class='ms'>git checkout master ; git merge b</span>
+              <span class='ms'>git checkout master ; git merge -no-ff b</span>
             </li>
             <li class='fragment'>
               Because
@@ -691,15 +705,37 @@
               and
               <span class='ms'>b</span>
             </li>
+            <li class='fragment'>
+              The resulting
+              <span class='ms'>merge commit</span>
+              has two parents:
+              <span class='ms'>a</span>
+              and
+              <span class='ms'>b</span>
+            </li>
           </ul>
         </section>
         <section>
           <h3>Merge commits</h3>
-          <code><pre>$ git branch -v&#x000A;  adam/style-index ddf0c20 Add styling to tweet#index&#x000A;* master           bc9f9f5 Remove comments from Gemfile&#x000A;<br />&#x000A;$ git log --oneline&#x000A;bc9f9f5 (HEAD, master) Remove comments from Gemfile&#x000A;6c8cd70 Add bootstrap to and scss'ed application.scss&#x000A;67ee28d Initial db/schema.rb&#x000A;78e5e7a Add scaffolding for Tweet&#x000A;2328d04 Add bootstrap, haml, remove spring&#x000A;9ba1482 rails new TwitterClone&#x000A;<br />&#x000A;$ git log --oneline adam/style-index&#x000A;ddf0c20 (adam/style-index) Add styling to tweet#index&#x000A;67ee28d Initial db/schema.rb&#x000A;78e5e7a Add scaffolding for Tweet&#x000A;2328d04 Add bootstrap, haml, remove spring&#x000A;9ba1482 rails new TwitterClone&#x000A;<br />&#x000A;$ git merge adam/style-index&#x000A;Merge made by the 'recursive' strategy.&#x000A; app/views/tweets/index.html.haml | 32 +++++++++++---------------------&#x000A; 1 file changed, 11 insertions(+), 21 deletions(-)&#x000A;<br />&#x000A;$ git show --format=raw&#x000A;commit d9010f8f6f9e82360089a28d7402f94c4c969c4b&#x000A;tree b33431aa9e4bf5e7c28dc40ea81565fb69c8b245&#x000A;<b>parent bc9f9f554e8491fe1c71de0ae21d1d194314f611</b>&#x000A;<b>parent ddf0c201a8d3c584d87a519b10348baaf325b131</b>&#x000A;author Adam Derewecki <derewecki@gmail.com> 1427692665 -0700&#x000A;committer Adam Derewecki <derewecki@gmail.com> 1427692665 -0700&#x000A;<br />&#x000A;    Merge branch 'adam/style-index'</pre></code>
+          <code><pre>$ git branch -v&#x000A;  adam/style-index ddf0c20 Add styling to tweet#index&#x000A;* master           bc9f9f5 Remove comments from Gemfile&#x000A;<br />&#x000A;$ git log --oneline&#x000A;bc9f9f5 (HEAD, master) Remove comments from Gemfile&#x000A;6c8cd70 Add bootstrap to and scss'ed application.scss&#x000A;67ee28d Initial db/schema.rb&#x000A;78e5e7a Add scaffolding for Tweet&#x000A;2328d04 Add bootstrap, haml, remove spring&#x000A;9ba1482 rails new TwitterClone&#x000A;<br />&#x000A;$ git log --oneline adam/style-index&#x000A;ddf0c20 (adam/style-index) Add styling to tweet#index&#x000A;67ee28d Initial db/schema.rb&#x000A;78e5e7a Add scaffolding for Tweet&#x000A;2328d04 Add bootstrap, haml, remove spring&#x000A;9ba1482 rails new TwitterClone&#x000A;<br />&#x000A;$ git merge --no-ff adam/style-index&#x000A;Merge made by the 'recursive' strategy.&#x000A; app/views/tweets/index.html.haml | 32 +++++++++++---------------------&#x000A; 1 file changed, 11 insertions(+), 21 deletions(-)&#x000A;<br />&#x000A;$ git show --format=raw&#x000A;commit d9010f8f6f9e82360089a28d7402f94c4c969c4b&#x000A;tree b33431aa9e4bf5e7c28dc40ea81565fb69c8b245&#x000A;<b>parent bc9f9f554e8491fe1c71de0ae21d1d194314f611</b>&#x000A;<b>parent ddf0c201a8d3c584d87a519b10348baaf325b131</b>&#x000A;author Adam Derewecki <derewecki@gmail.com> 1427692665 -0700&#x000A;committer Adam Derewecki <derewecki@gmail.com> 1427692665 -0700&#x000A;<br />&#x000A;    Merge branch 'adam/style-index'</pre></code>
         </section>
         <section>
           <h3>Merge commits</h3>
           <code><pre>$ git log --oneline --graph&#x000A;*   d9010f8 (HEAD, master) Merge branch 'adam/style-index'&#x000A;|\&#x000A;| * ddf0c20 (adam/style-index) Add styling to tweet#index&#x000A;* | bc9f9f5 Remove comments from Gemfile&#x000A;* | 6c8cd70 Add bootstrap to and scss'ed application.scss&#x000A;|/&#x000A;* 67ee28d Initial db/schema.rb&#x000A;* 78e5e7a Add scaffolding for Tweet&#x000A;* 2328d04 Add bootstrap, haml, remove spring&#x000A;* 9ba1482 rails new TwitterClone</pre></code>
+          <ul>
+            <li class='fragment'>
+              Two commits in the left branch (master)
+            </li>
+            <li class='fragment'>
+              One commit in the right branch (topic branch adam/style-index)
+            </li>
+            <li class='fragment'>
+              <span class='ms'>d9010f8</span>
+              is the
+              <span class='ms'>merge commit</span>
+              that 'ties' the two branches together
+            </li>
+          </ul>
         </section>
         <section>
           <h3>Rebasing</h3>
@@ -708,25 +744,19 @@
               Merge commits are non-destructive; they don't re-write history
             </li>
             <li class='fragment'>
-              Rebasing re-writes the history of your branch so that it merges
-              in as a fast-forward
+              Rebasing forward-ports local commits to the updated upstream head
             </li>
             <li class='fragment'>
-              When
-              <span class='ms'>a</span>
-              branched,
-              <span class='ms'>master'</span>
-              was the parent of
-              <span class='ms'>a</span>
+              Rebasing is destructive; all the commits you forward port will
+              change their parent references, which will in turn change their
+              SHA1s
             </li>
             <li class='fragment'>
-              After rebasing onto
-              <span class='ms'>master,</span>
-              the first commit of the branch now has
-              <span class='ms'>master</span>
-              as the parent
+              Think of rebasing as "replaying" your changes on the target branch
             </li>
-            <li class='fragment'>TODO graphic</li>
+            <li class='fragment'>
+              <img src='assets/merge-conflict-4-rebase.jpg' />
+            </li>
           </ul>
         </section>
         <section>
@@ -743,12 +773,15 @@
             <li class='fragment'>
               With
               <span class='ms'>git rebase -i,</span>
-              we saw a list of commits with 'pick' as the default action
+              we saw a list of commits with
+              <span class='ms'>pick</span>
+              as the default action
             </li>
             <li class='fragment'>
               You can start an interactive rebase and add
               <i>any</i>
-              new commits you want as 'pick'
+              new commits you want as
+              <span class='ms'>pick</span>
             </li>
             <li class='fragment'>
               <span class='ms'>cherry-pick</span>
@@ -761,13 +794,13 @@
           <h2>Using git effectiely</h2>
           <h4>
             <div class='live'>
-              Live
+              Live:
               <a href='is.gd/derwiki_git'>
                 is.gd/derwiki_git
               </a>
             </div>
             <div class='source'>
-              Source
+              Source:
               <a href='//github.com/derwiki/presentation-git'>
                 github.com/derwiki/presentation-git
               </a>

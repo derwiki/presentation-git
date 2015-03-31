@@ -17,11 +17,11 @@
           %h2 Using git effectiely 
           %h4
             .live
-              Live
+              Live:
               %a{ href: 'is.gd/derwiki_git' }
                 is.gd/derwiki_git
             .source
-              Source
+              Source:
               %a{ href: '//github.com/derwiki/presentation-git' }
                 github.com/derwiki/presentation-git
           %br
@@ -482,7 +482,7 @@
               you can fast-forward to
               %span.ms origin/master
             %li.fragment
-              %span.ms git pull origin master --ff-only
+              %span.ms git pull --ff-only [origin [master]]
 
         %section
           %h3
@@ -790,17 +790,8 @@
             %li.fragment
               Which means its children need to be re-written to point to the new SHA-1
             %li.fragment
-              %code
-                %pre
-                  = preserve do
-                    \$ git log --oneline
-                    \* bc9f9f5 (HEAD, master) Remove comments from Gemfile
-                    \* 6c8cd70 Add bootstrap to and scss'ed application.scss
-                    \* 67ee28d Initial db/schema.rb
-                    \* 78e5e7a Add scaffolding for Tweet
-                    \* 2328d04 Add bootstrap, haml, remove spring
-                    \* 9ba1482 rails new TwitterClone
-                    \$ git rebase -i 2328d04
+              Invoked with a base commit-ish to work from, presents a list of all
+              commits more recent than the base commit
 
         %section
           %h3.ms git rebase --interactive
@@ -816,6 +807,13 @@
                 \* 9ba1482 rails new TwitterClone
                 %br
                 \$ git rebase -i 2328d04
+                \# before
+                pick 78e5e7a Add scaffolding for Tweet
+                pick 67ee28d Initial db/schema.rb
+                pick 6c8cd70 Add bootstrap to and scss'ed application.scss
+                pick bc9f9f5 Remove comments from Gemfile
+                %br
+                \# after
                 pick 78e5e7a Add scaffolding for Tweet
                 fixup 67ee28d Initial db/schema.rb
                 pick bc9f9f5 Remove comments from Gemfile
@@ -832,21 +830,13 @@
                 \#  x, exec = run command (the rest of the line) using shell
                 \#
                 \# These lines can be re-ordered; they are executed from top to bottom.
-                \#
                 \# If you remove a line here THAT COMMIT WILL BE LOST.
-                \#
                 \# However, if you remove everything, the rebase will be aborted.
-                \#
                 \# Note that empty commits are commented out
 
         %section
           %h3.ms git rebase --interactive
           %ul
-            %li.fragment
-              After saving/quitting from
-              %span.ms git rebase -i,
-              the SHA-1 of "Add scaffolding for Tweet" and every child of that
-              has been updated
             %li.fragment
               %code
                 %pre
@@ -867,6 +857,11 @@
                     acb9b7f Add scaffolding for Tweet
                     2328d04 Add bootstrap, haml, remove spring
                     9ba1482 rails new TwitterClone
+            %li.fragment
+              After saving/quitting from
+              %span.ms git rebase -i,
+              the SHA-1 of "Add scaffolding for Tweet" and every child of that
+              has been updated
 
         %section
           %h3 When and when not to re-write history
@@ -891,11 +886,12 @@
               %span.ms git rebase -i,
               our code changes now have different SHA-1s
             %li.fragment
-              Still in the object model
+              "Old" commits are still in the object model
               %span.ms (.git/objects)
             %li.fragment
               Unless referenced in another branch, considered a "dangling commit"
             %li.fragment
+              Enumerate dangling objects
               %code
                 %pre
                   = preserve do
@@ -956,8 +952,11 @@
             %li.fragment
               To merge
               %span.ms a,
-              master is simply fast-forwarded to a
+              master is simply fast-forwarded to
+              %span.ms a
               %img{ src: 'assets/merge-conflict-2.jpg' }
+            %li.fragment.ms
+              git checkout master ; git merge --ff-only a
 
         %section
           %h3 Dealing with merge conflicts
@@ -971,15 +970,23 @@
               %span.ms b?
               %img{ src: 'assets/merge-conflict-3.jpg' }
             %li.fragment
+              %span.ms b's
+              parent was the old head of
+              %span.ms master,
+              but now we need
+              %span.ms b's
+              parent to be the new head of
+              %span.ms master,
+              which is
+              %span.ms a
+            %li.fragment
               Two solutions: merge commit or rebase
 
         %section
           %h3 Merge commits
           %ul
             %li.fragment
-              Differ from normal commit in that it has two parents
-            %li.fragment
-              %span.ms git checkout master ; git merge b
+              %span.ms git checkout master ; git merge -no-ff b
             %li.fragment
               Because
               %span.ms a
@@ -992,6 +999,13 @@
               git performs a 3-way merge, using the closest common ancestor
               and the two trees associated
               %span.ms master
+              and
+              %span.ms b
+            %li.fragment
+              The resulting
+              %span.ms merge commit
+              has two parents:
+              %span.ms a
               and
               %span.ms b
 
@@ -1019,7 +1033,7 @@
                 2328d04 Add bootstrap, haml, remove spring
                 9ba1482 rails new TwitterClone
                 %br
-                \$ git merge adam/style-index
+                \$ git merge --no-ff adam/style-index
                 Merge made by the 'recursive' strategy.
                 \ app/views/tweets/index.html.haml | 32 +++++++++++---------------------
                 \ 1 file changed, 11 insertions(+), 21 deletions(-)
@@ -1050,6 +1064,17 @@
                 \* 78e5e7a Add scaffolding for Tweet
                 \* 2328d04 Add bootstrap, haml, remove spring
                 \* 9ba1482 rails new TwitterClone
+          %ul
+            %li.fragment
+              Two commits in the left branch (master)
+            %li.fragment
+              One commit in the right branch (topic branch adam/style-index)
+            %li.fragment
+              %span.ms d9010f8
+              is the
+              %span.ms merge commit
+              that 'ties' the two branches together
+
 
         %section
           %h3 Rebasing
@@ -1057,22 +1082,15 @@
             %li.fragment
               Merge commits are non-destructive; they don't re-write history
             %li.fragment
-              Rebasing re-writes the history of your branch so that it merges
-              in as a fast-forward
+              Rebasing forward-ports local commits to the updated upstream head
             %li.fragment
-              When
-              %span.ms a
-              branched,
-              %span.ms master'
-              was the parent of
-              %span.ms a
+              Rebasing is destructive; all the commits you forward port will
+              change their parent references, which will in turn change their
+              SHA1s
             %li.fragment
-              After rebasing onto
-              %span.ms master,
-              the first commit of the branch now has
-              %span.ms master
-              as the parent
-            %li.fragment TODO graphic
+              Think of rebasing as "replaying" your changes on the target branch
+            %li.fragment
+              %img{ src: 'assets/merge-conflict-4-rebase.jpg' }
 
         %section
           %h3 Rebasing
@@ -1142,11 +1160,14 @@
             %li.fragment
               With
               %span.ms git rebase -i,
-              we saw a list of commits with 'pick' as the default action
+              we saw a list of commits with
+              %span.ms pick
+              as the default action
             %li.fragment
               You can start an interactive rebase and add
               %i any
-              new commits you want as 'pick'
+              new commits you want as
+              %span.ms pick
             %li.fragment
               %span.ms cherry-pick
               is a special-case shortcut for when you only have one commit you
@@ -1158,11 +1179,11 @@
           %h2 Using git effectiely
           %h4
             .live
-              Live
+              Live:
               %a{ href: 'is.gd/derwiki_git' }
                 is.gd/derwiki_git
             .source
-              Source
+              Source:
               %a{ href: '//github.com/derwiki/presentation-git' }
                 github.com/derwiki/presentation-git
           %br
