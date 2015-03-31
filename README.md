@@ -1,9 +1,10 @@
-Presentation on basic Search Engine Optimization
+Presentation on using git effectively in a team environment
 
-Presented by Adam Derewecki (adam@cameralends.com):
-  - 2014/9/22 Hackers/Founders
-  - 2014/8/8  HackerDojo
-  - 2014/2/27 ApartmentList Lightning Talks
+Presented by Adam Derewecki (derewecki@gmail.com):
+  - 2015/3/31 AdRoll
+
+Live viewable version available at:
+  - http://is.gd/derwiki_git
 
 ## Includes:
 
@@ -14,7 +15,6 @@ Presented by Adam Derewecki (adam@cameralends.com):
 
 1. Make sure the prerequisites are in place:
 
-        git submodule update --init
         bundle
 
 1. Build the presentation and open it:
