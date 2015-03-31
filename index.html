@@ -791,6 +791,72 @@
           </ul>
         </section>
         <section>
+          <h3>Rebasing when you're working on a WIP branch</h3>
+          <ul>
+            <li class='fragment'>
+              Sometimes you need to work on-top of someone's branch that hasn't
+              been merged into master
+            </li>
+            <li class='fragment'>
+              What happens after it merges?
+            </li>
+            <li class='fragment'>
+              Use
+              <span class='ms'>git rebase -i commit-ish</span>
+              to
+              <span class='ms'>squash</span>
+              your commits (ahead of the branch point) into one commit
+            </li>
+            <li class='fragment'>
+              <span class='ms'>cherry-pick</span>
+              your uber-commit into a new branch pointed at
+              <span class='ms'>origin/master</span>
+            </li>
+            <li class='fragment'>
+              Or instead of
+              <span class='ms'>squash-</span>
+              ing,
+              <span class='ms'>rebase -i HEAD^</span>
+              and add N
+              <span class='ms'>pick SHA1</span>
+              lines for N commits you want to rebase on-top of
+              <span class='ms'>master</span>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>Command summary</h2>
+          <div class='git-summary-col'>
+            <p></p>
+            <p>git help --all</p>
+            <p>git init</p>
+            <p>git ls-tree HEAD</p>
+            <p>git show --format=raw</p>
+            <p>git rev-parse HEAD</p>
+            <p>git branch -v</p>
+            <p>git checkout -b $newbranch</p>
+            <p>git pull --ff-only [origin [master]]</p>
+            <p>git log --oneline</p>
+            <p>git log --oneline --graph</p>
+            <p>git reset HEAD^^</p>
+            <p>git reset --hard HEAD^^</p>
+            <p>git fetch origin</p>
+            <p>git reset --hard origin/master</p>
+            <p>git clean -xdf</p>
+            <p>git add --patch</p>
+            <p>git diff --cached</p>
+            <p>git commit -v</p>
+            <p>git rebase -i $commit-ish</p>
+            <p>git fsck --full</p>
+            <p>git reflog expire --expire=now --all</p>
+            <p>git gc --prune=now</p>
+            <p>git reflog</p>
+            <p>git merge --ff-only $commit-ish</p>
+            <p>git merge -no-ff $commit-ish</p>
+            <p>git cherry-pick $commit-ish</p>
+          </div>
+        </section>
+        <section>
           <h2>Using git effectiely</h2>
           <h4>
             <div class='live'>

@@ -1173,7 +1173,64 @@
               is a special-case shortcut for when you only have one commit you
               want to merge in
 
+        %section
+          %h3 Rebasing when you're working on a WIP branch
+          %ul
+            %li.fragment
+              Sometimes you need to work on-top of someone's branch that hasn't
+              been merged into master
+            %li.fragment
+              What happens after it merges?
+            %li.fragment
+              Use
+              %span.ms git rebase -i commit-ish
+              to
+              %span.ms squash
+              your commits (ahead of the branch point) into one commit
+            %li.fragment
+              %span.ms cherry-pick
+              your uber-commit into a new branch pointed at
+              %span.ms origin/master
+            %li.fragment
+              Or instead of
+              %span.ms squash-
+              ing,
+              %span.ms rebase -i HEAD^
+              and add N
+              %span.ms pick SHA1
+              lines for N commits you want to rebase on-top of
+              %span.ms master
 
+        %section
+          %h2 Command summary
+          .git-summary-col
+            %p
+            %p git help --all
+            %p git init
+            %p git ls-tree HEAD
+            %p git show --format=raw
+            %p git rev-parse HEAD
+            %p git branch -v
+            %p git checkout -b $newbranch
+            %p git pull --ff-only [origin [master]]
+            %p git log --oneline
+            %p git log --oneline --graph
+            %p git reset HEAD^^
+            %p git reset --hard HEAD^^
+            %p git fetch origin
+            %p git reset --hard origin/master
+            %p git clean -xdf
+            %p git add --patch
+            %p git diff --cached
+            %p git commit -v
+            %p git rebase -i $commit-ish
+            %p git fsck --full
+            %p git reflog expire --expire=now --all
+            %p git gc --prune=now
+            %p git reflog
+            %p git merge --ff-only $commit-ish
+            %p git merge -no-ff $commit-ish
+            %p git cherry-pick $commit-ish
 
         %section
           %h2 Using git effectiely
