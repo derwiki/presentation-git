@@ -1238,6 +1238,12 @@
             %p git merge --ff-only $commit-ish
             %p git merge -no-ff $commit-ish
             %p git cherry-pick $commit-ish
+          %ul
+            %li.fragment
+              Help via
+              %span.ms man git-$command,
+              e.g.
+              %span.ms man git-rebase
 
         %section
           %h2

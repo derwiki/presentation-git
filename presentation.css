@@ -85,9 +85,21 @@
   margin: 0;
   height: 1.1em;
 }
-.git-col p:first {
-  height: 2em;
+
+.git-summary-col {
+  -webkit-column-count: 2;
+  -webkit-column-gap: 3px;
+  -moz-column-count: 2;
+  -moz-column-gap: 3px;
+  column-count:2;
+  column-gap:3px;
+  font-size: 20px;
+  font-family: monospace;
 }
+.git-summary-col p {
+  margin: 0;
+}
+
 .ms {
   font-family: monospace !important;
 }
