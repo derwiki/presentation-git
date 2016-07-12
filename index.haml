@@ -31,7 +31,7 @@
           %h5 presented by
           %h4 @derwiki
           %h4
-          %h4 for AdRoll, March 31, 2015
+          %h4 for Snapdocs, July 12, 2016
 
         %section
           %h3
@@ -1205,7 +1205,7 @@
               %span.ms rebase -i HEAD^
               and add N
               %span.ms pick SHA1
-              lines for N commits you want to rebase on-top of
+              lines for N commits in your branch to rebase on-top of
               %span.ms master
 
         %section
@@ -1246,6 +1246,87 @@
               %span.ms man git-rebase
 
         %section
+          %h2 .gitconfig
+          .ms
+            %div [log]
+            %div   decorate = short
+            %div   # adds branches, references to git-log
+            %hr
+            %div [rerere]
+            %div   enabled = true
+            %div   # Reuse recorded resolution of conflicted merges
+            %div   # see `man git-rerere'
+            %hr
+            %div [apply]
+            %div   whitespace = fix
+            %div   # automagically fix whitespace
+            %div   # see `man git-apply' for other options
+
+        %section
+          %h2 .gitconfig
+          .ms
+            %div [help]
+            %div  autocorrect = 10
+            %div  # elcalafate:git derwiki$ git lgo
+            %div  # WARNING: You called a Git command named 'lgo', which does not exist.
+            %div  # Continuing under the assumption that you meant 'log'
+            %div  # in 1.0 seconds automatically...
+
+        %section
+          %h2 .gitconfig
+          .ms
+            %div [alias]
+            %div   st = status
+            %div   ss = status --short
+            %div   ci = commit
+            %div   co = checkout
+            %div   patch = add --patch
+            %div   amend = commit --amend
+            %div   staged = diff --cached
+            %div   sha1 = rev-parse HEAD
+            %div   abbrev = rev-parse --short HEAD
+            %div   ma = checkout master
+
+        %section
+          %h2 .gitconfig
+          .ms
+            %div [alias]
+            %div   ph = push origin HEAD
+            %div   # push HEAD on the current branch to the branch on origin
+            %hr
+            %div   rom = rebase origin/master
+            %hr
+            %div   from = !sh -c 'git fetch origin && git rebase origin/master' -
+            %hr
+            %div   resom = !sh -c 'git fetch origin && git checkout master && git reset --hard origin/master' -
+
+        %section
+          %h2 .gitconfig
+          .ms
+            %div [alias]
+            %div oneline = log --oneline
+            %pre
+              \# e14d631 (HEAD, origin/master, origin/HEAD, master) Merge branch 'maint'
+              \# 0f64a5a Merge branch 'rr/misc-fixes'
+              \# ef563de convert.c: Fix return type of git_path_check_eol()
+              \# 1e501a7 (origin/maint) documentation fix: git difftool uses diff tools, not merge tools.
+              \# 05bab3e config.c: Fix a static buffer overwrite bug by avoiding mkpath()
+              \# 3a81f33 t5501-*.sh: Fix url passed to clone in setup test
+
+            %div graph = log --oneline --graph
+            %pre
+              \# *   e14d631 (HEAD, origin/master, origin/HEAD, master) Merge branch 'maint'
+              \# |\
+              \# | * 1e501a7 (origin/maint) documentation fix: git difftool uses diff tools, not merge tools.
+              \# * |   0f64a5a Merge branch 'rr/misc-fixes'
+              \# |\ \
+              \# | * | ef563de convert.c: Fix return type of git_path_check_eol()
+              \# * | | 05bab3e config.c: Fix a static buffer overwrite bug by avoiding mkpath()
+              \# * | | 3a81f33 t5501-*.sh: Fix url passed to clone in setup test
+
+            %div ten = log --oneline --graph -10
+
+        %section
           %h2
             Using
             %span.ms git
@@ -1263,7 +1344,7 @@
           %h5 presented by
           %h4 @derwiki
           %h4
-          %h4 for AdRoll, March 31, 2015
+          %h4 for Snapdocs, July 12, 2016
 
       /
         required for correct operation of reveal.js,

@@ -37,7 +37,7 @@
           <h5>presented by</h5>
           <h4>@derwiki</h4>
           <h4></h4>
-          <h4>for AdRoll, March 31, 2015</h4>
+          <h4>for Snapdocs, July 12, 2016</h4>
         </section>
         <section>
           <h3>
@@ -828,7 +828,7 @@
               <span class='ms'>rebase -i HEAD^</span>
               and add N
               <span class='ms'>pick SHA1</span>
-              lines for N commits you want to rebase on-top of
+              lines for N commits in your branch to rebase on-top of
               <span class='ms'>master</span>
             </li>
           </ul>
@@ -874,6 +874,88 @@
           </ul>
         </section>
         <section>
+          <h2>.gitconfig</h2>
+          <div class='ms'>
+            <div>[log]</div>
+            <div>decorate = short</div>
+            <div># adds branches, references to git-log</div>
+            <hr />
+            <div>[rerere]</div>
+            <div>enabled = true</div>
+            <div># Reuse recorded resolution of conflicted merges</div>
+            <div># see `man git-rerere'</div>
+            <hr />
+            <div>[apply]</div>
+            <div>whitespace = fix</div>
+            <div># automagically fix whitespace</div>
+            <div># see `man git-apply' for other options</div>
+          </div>
+        </section>
+        <section>
+          <h2>.gitconfig</h2>
+          <div class='ms'>
+            <div>[help]</div>
+            <div>autocorrect = 10</div>
+            <div># elcalafate:git derwiki$ git lgo</div>
+            <div># WARNING: You called a Git command named 'lgo', which does not exist.</div>
+            <div># Continuing under the assumption that you meant 'log'</div>
+            <div># in 1.0 seconds automatically...</div>
+          </div>
+        </section>
+        <section>
+          <h2>.gitconfig</h2>
+          <div class='ms'>
+            <div>[alias]</div>
+            <div>st = status</div>
+            <div>ss = status --short</div>
+            <div>ci = commit</div>
+            <div>co = checkout</div>
+            <div>patch = add --patch</div>
+            <div>amend = commit --amend</div>
+            <div>staged = diff --cached</div>
+            <div>sha1 = rev-parse HEAD</div>
+            <div>abbrev = rev-parse --short HEAD</div>
+            <div>ma = checkout master</div>
+          </div>
+        </section>
+        <section>
+          <h2>.gitconfig</h2>
+          <div class='ms'>
+            <div>[alias]</div>
+            <div>ph = push origin HEAD</div>
+            <div># push HEAD on the current branch to the branch on origin</div>
+            <hr />
+            <div>rom = rebase origin/master</div>
+            <hr />
+            <div>from = !sh -c 'git fetch origin && git rebase origin/master' -</div>
+            <hr />
+            <div>resom = !sh -c 'git fetch origin && git checkout master && git reset --hard origin/master' -</div>
+          </div>
+        </section>
+        <section>
+          <h2>.gitconfig</h2>
+          <div class='ms'>
+            <div>[alias]</div>
+            <div>oneline = log --oneline</div>
+            <pre># e14d631 (HEAD, origin/master, origin/HEAD, master) Merge branch 'maint'
+            # 0f64a5a Merge branch 'rr/misc-fixes'
+            # ef563de convert.c: Fix return type of git_path_check_eol()
+            # 1e501a7 (origin/maint) documentation fix: git difftool uses diff tools, not merge tools.
+            # 05bab3e config.c: Fix a static buffer overwrite bug by avoiding mkpath()
+            # 3a81f33 t5501-*.sh: Fix url passed to clone in setup test</pre>
+            <div>graph = log --oneline --graph</div>
+            <pre># *   e14d631 (HEAD, origin/master, origin/HEAD, master) Merge branch 'maint'
+            # |\
+            # | * 1e501a7 (origin/maint) documentation fix: git difftool uses diff tools, not merge tools.
+            # * |   0f64a5a Merge branch 'rr/misc-fixes'
+            # |\ \
+            # | * | ef563de convert.c: Fix return type of git_path_check_eol()
+            # * | | 05bab3e config.c: Fix a static buffer overwrite bug by avoiding mkpath()
+            # * | | 3a81f33 t5501-*.sh: Fix url passed to clone in setup test</pre>
+            <div>ten = log --oneline --graph -10</div>
+          </div>
+        </section>
+        <section>
           <h2>
             Using
             <span class='ms'>git</span>
@@ -897,7 +979,7 @@
           <h5>presented by</h5>
           <h4>@derwiki</h4>
           <h4></h4>
-          <h4>for AdRoll, March 31, 2015</h4>
+          <h4>for Snapdocs, July 12, 2016</h4>
         </section>
       </div>
       <!--
