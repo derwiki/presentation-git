@@ -380,13 +380,15 @@
           %h3 SHA-1 hashes
           %ul
             %li.fragment
-              Hashing algorithm used to identify all objects
+              Hashing algorithm used to identify all objects based on contents
             %li.fragment
-              blob: changing the file contents changes SHA-1
+              Operations that update a referencing SHA-1:
             %li.fragment
-              tree: adding/removing a subtree, changing a blob changes SHA-1
+              blob: changing file contents
             %li.fragment
-              commit: changing blob, tree, or commit metadata changes SHA-1
+              tree: adding/removing a subtree, changing file contents
+            %li.fragment
+              commit: changing any tree or commit metadata
 
         %section
           %h3 Raw commit
@@ -395,7 +397,7 @@
               = preserve do
                 \$ git show --format=raw | head -n 7
                 %br
-                commit 67ee28dcc27ee5ab59061ae47a0b81dd19888274
+                %b commit 67ee28dcc27ee5ab59061ae47a0b81dd19888274
                 tree e7dd337b5f247393f9f23e03eef3a176eb32e1a1
                 parent 78e5e7abdb69d32f886e950b3329fdc0c249f6dd
                 author Adam Derewecki <derewecki@gmail.com> 1427591530 -0700
@@ -411,7 +413,7 @@
                 %br
                 \$ git show --format=raw | head -n 7
                 %br
-                commit b7eabfc8b46f259eee072cb6c79595452b72331b
+                %b commit b7eabfc8b46f259eee072cb6c79595452b72331b
                 tree e7dd337b5f247393f9f23e03eef3a176eb32e1a1
                 parent 78e5e7abdb69d32f886e950b3329fdc0c249f6dd
                 author Adam Derewecki <derewecki@gmail.com> 1427591530 -0700
@@ -420,17 +422,20 @@
 
         %section
           %h3
-            %span.ms HEAD
-            pointer
+            %span.ms Pointers
           %ul
             %li.fragment
               HEAD: pointer to the currently checked out commit
             %li.fragment
               i.e. the head of the current branch
             %li.fragment
-              HEAD^: the parent of HEAD
+              HEAD~1: the first parent of HEAD
             %li.fragment
-              HEAD~2: the grandparent of HEAD
+              HEAD~2: the first parent's first parent
+            %li.fragment
+              HEAD^: the first parent of HEAD
+            %li.fragment
+              HEAD^2: the second parent of HEAD
             %li.fragment
               %code
                 %pre
@@ -443,6 +448,23 @@
                     67ee28dcc27ee5ab59061ae47a0b81dd19888274
 
         %section
+          %h3
+            %span.ms Pointers
+          %code
+            %pre
+              = preserve do
+                \$ g rev-parse HEAD~^~^
+                54608ed74485f71ea6781810d8af56ee8b192673
+                \$ g rev-parse HEAD~~~~
+                54608ed74485f71ea6781810d8af56ee8b192673
+                \$ g rev-parse HEAD~4
+                54608ed74485f71ea6781810d8af56ee8b192673
+                \$ g rev-parse origin/master~4
+                54608ed74485f71ea6781810d8af56ee8b192673
+                \$ g rev-parse origin/master^^^^
+                54608ed74485f71ea6781810d8af56ee8b192673
+
+        %section
           %h3 Branch pointers
           %ul( style="width: 100%" )
             %li.fragment
@@ -452,7 +474,7 @@
                     \$ git branch -v
                     \  adam/style-index ddf0c20 Add styling to tweet#index
                     \  grant/style-new  28bbd41 Convert tweet#new, tweet#form
-                    \* master           67ee28d Initial db/schema.rb
+                    \* master           2c75ffc Initial db/schema.rb
             %li.fragment
               %code
                 %pre
@@ -605,7 +627,7 @@
             %li.fragment
               %span.ms git reset --hard SHA1
               is equivalent to
-              %span.ms git reset SHA1 ; git clean -xdf
+              %span.ms git reset SHA1 && git clean -xdf
 
         %section
           %h3 Working tree
@@ -871,17 +893,17 @@
               has been updated
 
         %section
-          %h3 When and when not to re-write history
+          %h3 When and when not to rewrite history
           %ul
             %li.fragment
               Do: use it to organize your commits in your local branch
             %li.fragment
-              Don't: re-write history of a public branch
+              Don't: rewrite history of a public branch
             %li.fragment
-              Especially don't: re-write history of
+              Especially don't: rewrite history of
               %span.ms master
             %li.fragment
-              Although do: re-write
+              Although do: rewrite
               %span.ms master
               if you need to remove confidential information from the repo
 
@@ -889,7 +911,7 @@
           %h3 Where did the commits go?
           %ul
             %li.fragment
-              After re-writing history with
+              After rewriting history with
               %span.ms git rebase -i,
               our code changes now have different SHA-1s
             %li.fragment
@@ -963,7 +985,8 @@
               %span.ms a
               %img{ src: 'assets/merge-conflict-2.jpg' }
             %li.fragment.ms
-              git checkout master ; git merge --ff-only a
+              git checkout master ; git merge --ff-only
+              %span.ms a
 
         %section
           %h3 Dealing with merge conflicts
@@ -993,7 +1016,7 @@
           %h3 Merge commits
           %ul
             %li.fragment
-              %span.ms git checkout master ; git merge -no-ff b
+              %span.ms git checkout master && git merge --no-ff b
             %li.fragment
               Because
               %span.ms a
@@ -1087,15 +1110,13 @@
           %h3 Rebasing
           %ul
             %li.fragment
-              Merge commits are non-destructive; they don't re-write history
+              Merge commits are non-destructive; they don't rewrite history
             %li.fragment
-              Rebasing forward-ports local commits to the updated upstream head
+              Rebasing rewinds your changes and replays them on the updated upstream head
             %li.fragment
-              Rebasing is destructive; all the commits you forward port will
+              Rebasing is destructive; all the commits you replay will
               change their parent references, which will in turn change their
-              SHA1s
-            %li.fragment
-              Think of rebasing as "replaying" your changes on the target branch
+              SHA-1s
             %li.fragment
               %img{ src: 'assets/merge-conflict-4-rebase.jpg' }
 
@@ -1196,7 +1217,7 @@
               your commits (ahead of the branch point) into one commit
             %li.fragment
               %span.ms cherry-pick
-              your uber-commit into a new branch pointed at
+              your squashed commit into a new branch pointed at
               %span.ms origin/master
             %li.fragment
               Or instead of

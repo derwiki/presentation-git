@@ -335,27 +335,29 @@
           <h3>SHA-1 hashes</h3>
           <ul>
             <li class='fragment'>
-              Hashing algorithm used to identify all objects
+              Hashing algorithm used to identify all objects based on contents
             </li>
             <li class='fragment'>
-              blob: changing the file contents changes SHA-1
+              Operations that update a referencing SHA-1:
             </li>
             <li class='fragment'>
-              tree: adding/removing a subtree, changing a blob changes SHA-1
+              blob: changing file contents
             </li>
             <li class='fragment'>
-              commit: changing blob, tree, or commit metadata changes SHA-1
+              tree: adding/removing a subtree, changing file contents
+            </li>
+            <li class='fragment'>
+              commit: changing any tree or commit metadata
             </li>
           </ul>
         </section>
         <section>
           <h3>Raw commit</h3>
-          <code><pre style='font-size: 14px;'>$ git show --format=raw | head -n 7&#x000A;<br />&#x000A;commit 67ee28dcc27ee5ab59061ae47a0b81dd19888274&#x000A;tree e7dd337b5f247393f9f23e03eef3a176eb32e1a1&#x000A;parent 78e5e7abdb69d32f886e950b3329fdc0c249f6dd&#x000A;author Adam Derewecki <derewecki@gmail.com> 1427591530 -0700&#x000A;committer Adam Derewecki <derewecki@gmail.com> 1427591530 -0700&#x000A;    Initial db/schema.rb&#x000A;<br />&#x000A;$ git commit --amend -m "Initial db/schema.rb (revised)"&#x000A;<br />&#x000A;[adam/style-index b7eabfc] Initial db/schema.rb (revised)&#x000A; Date: Sat Mar 28 18:12:10 2015 -0700&#x000A; 1 file changed, 24 insertions(+)&#x000A; create mode 100644 db/schema.rb&#x000A;<br />&#x000A;$ git show --format=raw | head -n 7&#x000A;<br />&#x000A;commit b7eabfc8b46f259eee072cb6c79595452b72331b&#x000A;tree e7dd337b5f247393f9f23e03eef3a176eb32e1a1&#x000A;parent 78e5e7abdb69d32f886e950b3329fdc0c249f6dd&#x000A;author Adam Derewecki <derewecki@gmail.com> 1427591530 -0700&#x000A;committer Adam Derewecki <derewecki@gmail.com> 1427610295 -0700&#x000A;    Initial db/schema.rb (revised)</pre></code>
+          <code><pre style='font-size: 14px;'>$ git show --format=raw | head -n 7&#x000A;<br />&#x000A;<b>commit 67ee28dcc27ee5ab59061ae47a0b81dd19888274</b>&#x000A;tree e7dd337b5f247393f9f23e03eef3a176eb32e1a1&#x000A;parent 78e5e7abdb69d32f886e950b3329fdc0c249f6dd&#x000A;author Adam Derewecki <derewecki@gmail.com> 1427591530 -0700&#x000A;committer Adam Derewecki <derewecki@gmail.com> 1427591530 -0700&#x000A;    Initial db/schema.rb&#x000A;<br />&#x000A;$ git commit --amend -m "Initial db/schema.rb (revised)"&#x000A;<br />&#x000A;[adam/style-index b7eabfc] Initial db/schema.rb (revised)&#x000A; Date: Sat Mar 28 18:12:10 2015 -0700&#x000A; 1 file changed, 24 insertions(+)&#x000A; create mode 100644 db/schema.rb&#x000A;<br />&#x000A;$ git show --format=raw | head -n 7&#x000A;<br />&#x000A;<b>commit b7eabfc8b46f259eee072cb6c79595452b72331b</b>&#x000A;tree e7dd337b5f247393f9f23e03eef3a176eb32e1a1&#x000A;parent 78e5e7abdb69d32f886e950b3329fdc0c249f6dd&#x000A;author Adam Derewecki <derewecki@gmail.com> 1427591530 -0700&#x000A;committer Adam Derewecki <derewecki@gmail.com> 1427610295 -0700&#x000A;    Initial db/schema.rb (revised)</pre></code>
         </section>
         <section>
           <h3>
-            <span class='ms'>HEAD</span>
-            pointer
+            <span class='ms'>Pointers</span>
           </h3>
           <ul>
             <li class='fragment'>
@@ -365,10 +367,16 @@
               i.e. the head of the current branch
             </li>
             <li class='fragment'>
-              HEAD^: the parent of HEAD
+              HEAD~1: the first parent of HEAD
             </li>
             <li class='fragment'>
-              HEAD~2: the grandparent of HEAD
+              HEAD~2: the first parent's first parent
+            </li>
+            <li class='fragment'>
+              HEAD^: the first parent of HEAD
+            </li>
+            <li class='fragment'>
+              HEAD^2: the second parent of HEAD
             </li>
             <li class='fragment'>
               <code><pre>$ cat .git/HEAD&#x000A;ref: refs/heads/master&#x000A;$ cat .git/refs/heads/master&#x000A;67ee28dcc27ee5ab59061ae47a0b81dd19888274&#x000A;$ git rev-parse HEAD&#x000A;67ee28dcc27ee5ab59061ae47a0b81dd19888274</pre></code>
@@ -376,10 +384,16 @@
           </ul>
         </section>
         <section>
+          <h3>
+            <span class='ms'>Pointers</span>
+          </h3>
+          <code><pre>$ g rev-parse HEAD~^~^&#x000A;54608ed74485f71ea6781810d8af56ee8b192673&#x000A;$ g rev-parse HEAD~~~~&#x000A;54608ed74485f71ea6781810d8af56ee8b192673&#x000A;$ g rev-parse HEAD~4&#x000A;54608ed74485f71ea6781810d8af56ee8b192673&#x000A;$ g rev-parse origin/master~4&#x000A;54608ed74485f71ea6781810d8af56ee8b192673&#x000A;$ g rev-parse origin/master^^^^&#x000A;54608ed74485f71ea6781810d8af56ee8b192673</pre></code>
+        </section>
+        <section>
           <h3>Branch pointers</h3>
           <ul style='width: 100%'>
             <li class='fragment'>
-              <code><pre>$ git branch -v&#x000A;  adam/style-index ddf0c20 Add styling to tweet#index&#x000A;  grant/style-new  28bbd41 Convert tweet#new, tweet#form&#x000A;* master           67ee28d Initial db/schema.rb</pre></code>
+              <code><pre>$ git branch -v&#x000A;  adam/style-index ddf0c20 Add styling to tweet#index&#x000A;  grant/style-new  28bbd41 Convert tweet#new, tweet#form&#x000A;* master           2c75ffc Initial db/schema.rb</pre></code>
             </li>
             <li class='fragment'>
               <code><pre>$ tree .git/refs/heads/&#x000A;.git/refs/heads/&#x000A;├── adam&#x000A;│   └── style-index&#x000A;├── grant&#x000A;│   └── style-new&#x000A;└── master&#x000A;$ cat .git/refs/heads/master&#x000A;2c75ffc1b6c0f5e4a8265bac78ba0640e236cc86</pre></code>
@@ -474,7 +488,7 @@
             <li class='fragment'>
               <span class='ms'>git reset --hard SHA1</span>
               is equivalent to
-              <span class='ms'>git reset SHA1 ; git clean -xdf</span>
+              <span class='ms'>git reset SHA1 && git clean -xdf</span>
             </li>
           </ul>
         </section>
@@ -589,20 +603,20 @@
           </ul>
         </section>
         <section>
-          <h3>When and when not to re-write history</h3>
+          <h3>When and when not to rewrite history</h3>
           <ul>
             <li class='fragment'>
               Do: use it to organize your commits in your local branch
             </li>
             <li class='fragment'>
-              Don't: re-write history of a public branch
+              Don't: rewrite history of a public branch
             </li>
             <li class='fragment'>
-              Especially don't: re-write history of
+              Especially don't: rewrite history of
               <span class='ms'>master</span>
             </li>
             <li class='fragment'>
-              Although do: re-write
+              Although do: rewrite
               <span class='ms'>master</span>
               if you need to remove confidential information from the repo
             </li>
@@ -612,7 +626,7 @@
           <h3>Where did the commits go?</h3>
           <ul>
             <li class='fragment'>
-              After re-writing history with
+              After rewriting history with
               <span class='ms'>git rebase -i,</span>
               our code changes now have different SHA-1s
             </li>
@@ -659,7 +673,8 @@
               <img src='assets/merge-conflict-2.jpg' />
             </li>
             <li class='fragment ms'>
-              git checkout master ; git merge --ff-only a
+              git checkout master ; git merge --ff-only
+              <span class='ms'>a</span>
             </li>
           </ul>
         </section>
@@ -696,7 +711,7 @@
           <h3>Merge commits</h3>
           <ul>
             <li class='fragment'>
-              <span class='ms'>git checkout master ; git merge -no-ff b</span>
+              <span class='ms'>git checkout master && git merge --no-ff b</span>
             </li>
             <li class='fragment'>
               Because
@@ -750,18 +765,15 @@
           <h3>Rebasing</h3>
           <ul>
             <li class='fragment'>
-              Merge commits are non-destructive; they don't re-write history
+              Merge commits are non-destructive; they don't rewrite history
             </li>
             <li class='fragment'>
-              Rebasing forward-ports local commits to the updated upstream head
+              Rebasing rewinds your changes and replays them on the updated upstream head
             </li>
             <li class='fragment'>
-              Rebasing is destructive; all the commits you forward port will
+              Rebasing is destructive; all the commits you replay will
               change their parent references, which will in turn change their
-              SHA1s
-            </li>
-            <li class='fragment'>
-              Think of rebasing as "replaying" your changes on the target branch
+              SHA-1s
             </li>
             <li class='fragment'>
               <img src='assets/merge-conflict-4-rebase.jpg' />
@@ -818,7 +830,7 @@
             </li>
             <li class='fragment'>
               <span class='ms'>cherry-pick</span>
-              your uber-commit into a new branch pointed at
+              your squashed commit into a new branch pointed at
               <span class='ms'>origin/master</span>
             </li>
             <li class='fragment'>
@@ -896,10 +908,10 @@
           <div class='ms'>
             <div>[help]</div>
             <div>autocorrect = 10</div>
-            <div># elcalafate:git derwiki$ git lgo</div>
-            <div># WARNING: You called a Git command named 'lgo', which does not exist.</div>
-            <div># Continuing under the assumption that you meant 'log'</div>
-            <div># in 1.0 seconds automatically...</div>
+            <pre># derwiki:~/src/presentation-git[master]$ git lgo
+            # WARNING: You called a Git command named 'lgo', which does not exist.
+            # Continuing under the assumption that you meant 'log'
+            # in 1.0 seconds automatically...</pre>
           </div>
         </section>
         <section>
