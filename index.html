@@ -1002,6 +1002,28 @@
           <code><pre>$ git diff&#x000A;diff --git a/index.html b/index.html&#x000A;index 162dcce..dcd4742 100644&#x000A;--- a/index.html&#x000A;+++ b/index.html&#x000A;@@ -991,7 +991,7 @@&#x000A;           &lt;h5&gt;presented by&lt;/h5&gt;&#x000A;           &lt;h4&gt;@derwiki&lt;/h4&gt;&#x000A;           &lt;h4&gt;&lt;/h4&gt;&#x000A;-          &lt;h4&gt;for Lyft, December 12, 2017&lt;/h4&gt;&#x000A;+          &lt;h4&gt;for Lyft, June 18, 2020&lt;/h4&gt;&#x000A;         &lt;/section&gt;&#x000A;       &lt;/div&gt;&#x000A;$ git diff &gt; patch.diff&#x000A;$ git checkout .&#x000A;Updated 1 path from the index&#x000A;$ git status&#x000A;On branch master&#x000A;Untracked files:&#x000A;  (use "git add &lt;file&gt;..." to include in what will be committed)&#x000A;        patch.diff&#x000A;<br />&#x000A;nothing added to commit but untracked files present (use "git add" to track)&#x000A;$ git apply patch.diff&#x000A;$ git diff&#x000A;diff --git a/index.html b/index.html&#x000A;index 162dcce..dcd4742 100644&#x000A;--- a/index.html&#x000A;+++ b/index.html&#x000A;@@ -991,7 +991,7 @@&#x000A;           &lt;h5&gt;presented by&lt;/h5&gt;&#x000A;           &lt;h4&gt;@derwiki&lt;/h4&gt;&#x000A;           &lt;h4&gt;&lt;/h4&gt;&#x000A;-          &lt;h4&gt;for Lyft, December 12, 2017&lt;/h4&gt;&#x000A;+          &lt;h4&gt;for Lyft, June 18, 2020&lt;/h4&gt;&#x000A;         &lt;/section&gt;&#x000A;       &lt;/div&gt;</pre></code>
         </section>
         <section>
+          <h3>
+            Additional resources
+          </h3>
+          <ul>
+            <li class='fragment'>
+              https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
+            </li>
+            <li class='fragment ms'>
+              man git-{commit,status,push,etc}
+            </li>
+            <li class='fragment'>
+              https://www.destroyallsoftware.com/screencasts/catalog/history-spelunking-with-unix
+            </li>
+            <li class='fragment'>
+              https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+            </li>
+            <li class='fragment'>
+              https://stevelosh.com/blog/2013/04/git-koans/
+            </li>
+          </ul>
+        </section>
+        <section>
           <h2>
             Using
             <span class='ms'>git</span>
