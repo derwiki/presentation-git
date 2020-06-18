@@ -1349,6 +1349,48 @@
             %div ten = log --oneline --graph -10
 
         %section
+          %h2 git diff / git apply
+          %code
+            %pre
+              = preserve do
+                $ git diff
+                diff --git a/index.html b/index.html
+                index 162dcce..dcd4742 100644
+                \--- a/index.html
+                +++ b/index.html
+                @@ -991,7 +991,7 @@
+                \           &lt;h5&gt;presented by&lt;/h5&gt;
+                \           &lt;h4&gt;@derwiki&lt;/h4&gt;
+                \           &lt;h4&gt;&lt;/h4&gt;
+                \-          &lt;h4&gt;for Lyft, December 12, 2017&lt;/h4&gt;
+                +          &lt;h4&gt;for Lyft, June 18, 2020&lt;/h4&gt;
+                \         &lt;/section&gt;
+                \       &lt;/div&gt;
+                $ git diff &gt; patch.diff
+                $ git checkout .
+                Updated 1 path from the index
+                $ git status
+                On branch master
+                Untracked files:
+                \  (use "git add &lt;file&gt;..." to include in what will be committed)
+                \        patch.diff
+                %br
+                nothing added to commit but untracked files present (use "git add" to track)
+                $ git apply patch.diff
+                $ git diff
+                diff --git a/index.html b/index.html
+                index 162dcce..dcd4742 100644
+                \--- a/index.html
+                +++ b/index.html
+                @@ -991,7 +991,7 @@
+                \           &lt;h5&gt;presented by&lt;/h5&gt;
+                \           &lt;h4&gt;@derwiki&lt;/h4&gt;
+                \           &lt;h4&gt;&lt;/h4&gt;
+                \-          &lt;h4&gt;for Lyft, December 12, 2017&lt;/h4&gt;
+                +          &lt;h4&gt;for Lyft, June 18, 2020&lt;/h4&gt;
+                \         &lt;/section&gt;
+                \       &lt;/div&gt;
+        %section
           %h2
             Using
             %span.ms git

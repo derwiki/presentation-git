@@ -968,6 +968,10 @@
           </div>
         </section>
         <section>
+          <h2>git diff / git apply</h2>
+          <code><pre>$ git diff&#x000A;diff --git a/index.html b/index.html&#x000A;index 162dcce..dcd4742 100644&#x000A;--- a/index.html&#x000A;+++ b/index.html&#x000A;@@ -991,7 +991,7 @@&#x000A;           &lt;h5&gt;presented by&lt;/h5&gt;&#x000A;           &lt;h4&gt;@derwiki&lt;/h4&gt;&#x000A;           &lt;h4&gt;&lt;/h4&gt;&#x000A;-          &lt;h4&gt;for Lyft, December 12, 2017&lt;/h4&gt;&#x000A;+          &lt;h4&gt;for Lyft, June 18, 2020&lt;/h4&gt;&#x000A;         &lt;/section&gt;&#x000A;       &lt;/div&gt;&#x000A;$ git diff &gt; patch.diff&#x000A;$ git checkout .&#x000A;Updated 1 path from the index&#x000A;$ git status&#x000A;On branch master&#x000A;Untracked files:&#x000A;  (use "git add &lt;file&gt;..." to include in what will be committed)&#x000A;        patch.diff&#x000A;<br />&#x000A;nothing added to commit but untracked files present (use "git add" to track)&#x000A;$ git apply patch.diff&#x000A;$ git diff&#x000A;diff --git a/index.html b/index.html&#x000A;index 162dcce..dcd4742 100644&#x000A;--- a/index.html&#x000A;+++ b/index.html&#x000A;@@ -991,7 +991,7 @@&#x000A;           &lt;h5&gt;presented by&lt;/h5&gt;&#x000A;           &lt;h4&gt;@derwiki&lt;/h4&gt;&#x000A;           &lt;h4&gt;&lt;/h4&gt;&#x000A;-          &lt;h4&gt;for Lyft, December 12, 2017&lt;/h4&gt;&#x000A;+          &lt;h4&gt;for Lyft, June 18, 2020&lt;/h4&gt;&#x000A;         &lt;/section&gt;&#x000A;       &lt;/div&gt;</pre></code>
+        </section>
+        <section>
           <h2>
             Using
             <span class='ms'>git</span>
